@@ -39,9 +39,4 @@ $adminmenu = [
         'link'  => 'admin/index.php?op=submit',
         'icon'  => '../../Frameworks/moduleclasses/icons/32/add.png',
     ],
-    [
-        'title' => _TC_MD_ADMENU2,
-        'link'  => 'admin/index.php?op=nlink',
-        'icon'  => '../../Frameworks/moduleclasses/icons/32/addlink.png',
-    ],
 ];

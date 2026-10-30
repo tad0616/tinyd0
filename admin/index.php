@@ -57,10 +57,6 @@ if (defined('XOOPS_TRUST_PATH') && !empty($_GET['lib'])) {
 
 }
 
-// page wrap search
-
-$page_wrap_search_allowed_exts = array('html', 'htm', 'phtml', 'php', 'php3', 'php4', 'txt');
-
 // also reading language files of modinfo & main
 
 if (file_exists("../language/{$xoopsConfig['language']}/modinfo.php")) {
@@ -147,8 +143,6 @@ $mymodpath = XOOPS_ROOT_PATH . "/modules/$mydirname";
 
 $mymodurl = XOOPS_URL . "/modules/$mydirname";
 
-$wrap_path = XOOPS_ROOT_PATH . "/modules/$mydirname/content";
-
 $mytablename = $xoopsDB->prefix("tinycontent{$mydirnumber}");
 
 $myts = &TinyDTextSanitizer::getInstance();
@@ -219,10 +213,6 @@ switch ($op) {
 
 			<a class='btn btn-primary btn-sm' href='?op=submit'>" . _TC_ADDCONTENT . "</a> $submitlink_with_spaw
 
-			<a class='btn btn-outline-primary btn-sm' href='?op=nlink'>" . _TC_ADDLINK . "</a>
-
-			<a class='btn btn-outline-secondary btn-sm' href='?op=update_wrap_contents'>" . _TC_UPDATE_WRAP_CONTENTS . "</a>
-
 		</div>
 
 		<div class='text-end small text-muted mb-2'>
@@ -277,37 +267,31 @@ switch ($op) {
 
             $submenu_checked = $submenu ? "checked='checked'" : "";
 
+            // db content
+
+            $line_class = 'odd';
+
+            $op_for_edit = 'edit';
+
+            $opname_for_edit = _TC_EDIT;
+
+            $opname_for_delete = _TC_DELETE;
+
+            $link_to_spaw = '';
+
             if ($link > 0) {
 
-                // page wrap
+                // legacy wrapped page (can no longer be created or edited)
 
-                $line_class = 'even';
+                $op_for_edit = 'show';
 
-                $op_for_edit = 'elink';
-
-                $opname_for_edit = _TC_ELINK;
-
-                $opname_for_delete = _TC_DELLINK;
-
-                $link_to_spaw = '';
+                $opname_for_edit = '';
 
                 $content_type = "WRAP$link";
 
                 $extended_link = '';
 
             } else {
-
-                // db content
-
-                $line_class = 'odd';
-
-                $op_for_edit = 'edit';
-
-                $opname_for_edit = _TC_EDIT;
-
-                $opname_for_delete = _TC_DELETE;
-
-                $link_to_spaw = '';
 
                 switch ($nohtml) {
 
@@ -864,462 +848,6 @@ switch ($op) {
         $result = $xoopsDB->query($sql) or die(_TC_ERRORINSERT);
 
         redirect_header("index.php?op=show", 1, _TC_DBUPDATED);
-
-        exit;
-
-        break;
-
-// ------------------------------------------------------------------------- //
-
-// Show new link & edit link Page                                            //
-
-// ------------------------------------------------------------------------- //
-
-    case "nlink":
-
-    case "elink":
-
-        tinyd_cp_header('index.php?op=nlink');
-
-        echo "<h4>" . $xoopsModule->getVar('name') . "</h4>";
-
-        if (is_writable($wrap_path)) {
-
-            // Upload File
-
-            echo "<form name='form_name2' id='form_name2' action='index.php' method='post' enctype='multipart/form-data'>";
-
-            echo "<table cellspacing='1' width='100%' class='outer'>";
-
-            echo "<tr><th colspan='2'>" . _TC_ULFILE . "</th></tr>";
-
-            echo "<tr valign='top' align='left'><td class='head' width='30%'>" . _TC_SFILE . "</td><td class='even'><input type='file' name='fileupload' id='fileupload' size='50' /></td></tr>";
-
-            echo "<tr valign='top' align='left'><td class='head'><input type='hidden' name='MAX_FILE_SIZE' id='op' value='500000' /><input type='hidden' name='op' id='op' value='upload' /></td><td class='even'><input type='submit' name='submit' value='" . _TC_UPLOAD . "' /></td></tr>";
-
-            echo "</table>";
-
-            printf(_TC_FMT_WRAPPATHPERMON, $wrap_path);
-
-            echo $xoopsGTicket->getTicketHtml(__LINE__);
-
-            echo "</form>";
-
-            // Delete File
-
-            $form = new XoopsThemeForm(_TC_DELFILE, "DelForm", "index.php");
-
-            $address_select = new XoopsFormSelect(_TC_URL, "address");
-
-            $dir_handle = dir($wrap_path);
-
-            while ($file = $dir_handle->read()) {
-
-                if (is_file("$wrap_path/$file") && $file != 'index.php') {
-
-                    $address_select->addOption($file, htmlspecialchars($file, ENT_QUOTES));
-
-                }
-
-            }
-
-            $dir_handle->close();
-
-            $form->addElement($address_select);
-
-            $form->addElement(new XoopsFormHidden('op', 'delfile'));
-
-            $form->addElement(new XoopsFormButton('', "submit", _TC_DELETE, 'submit'));
-
-            $form->display();
-
-        } else {
-
-            echo "<p>" . sprintf(_TC_FMT_WRAPPATHPERMOFF, $wrap_path) . "</p>";
-
-        }
-
-        // initialization
-
-        if ($op == 'elink') {
-
-            $result = $xoopsDB->query("SELECT storyid,title,visible,address,submenu,link,UNIX_TIMESTAMP(last_modified) FROM $mytablename WHERE storyid='$id'");
-
-            list($storyid, $title, $visible, $address, $submenu, $link, $last_modified) = $xoopsDB->fetchRow($result);
-
-            $form_name = _TC_EDITLINK;
-
-            $next_op = 'linkeditit';
-
-        } else {
-
-            list($storyid, $title, $visible, $address, $submenu, $link, $last_modified) = array(0, '', 1, '', 1, 1, 0);
-
-            $form_name = _TC_ADDLINK;
-
-            $next_op = 'addlink';
-
-        }
-
-        // beggining of xoopsForm for PageWrapping
-
-        $form = new XoopsThemeForm($form_name, "MainForm", "index.php");
-
-        // title
-
-        $form->addElement(new XoopsFormText(_TC_LINKNAME, "title", 50, 255, htmlspecialchars($title, ENT_QUOTES)));
-
-        // a file should be wrapped
-
-        $address_select = new XoopsFormSelect(_TC_URL, "address", $address);
-
-        $dir_handle = dir($wrap_path);
-
-        while ($file = $dir_handle->read()) {
-
-            if (is_file("$wrap_path/$file") && $file != 'index.php') {
-
-                $address_select->addOption($file, htmlspecialchars($file, ENT_QUOTES));
-
-            }
-
-        }
-
-        $dir_handle->close();
-
-        $form->addElement($address_select);
-
-        // base path for wrapping
-
-        $wraproot_radio = new XoopsFormRadio(_TC_WRAPROOT, 'wraproot', $link);
-
-        $wraproot_radio->addOption(TC_WRAPTYPE_NORMAL, sprintf(_TC_FMT_WRAPROOTTC, $mymodpath));
-
-        $wraproot_radio->addOption(TC_WRAPTYPE_CONTENTBASE, sprintf(_TC_FMT_WRAPROOTPAGE, $wrap_path));
-
-        $wraproot_radio->addOption(TC_WRAPTYPE_USEREWRITE, sprintf(_TC_FMT_WRAPBYREWRITE, $wrap_path));
-
-        $wraproot_radio->addOption(TC_WRAPTYPE_CHANGESRCHREF, sprintf(_TC_FMT_WRAPCHANGESRCHREF, $wrap_path));
-
-        $form->addElement($wraproot_radio);
-
-        // options
-
-        $option_tray = new XoopsFormElementTray(_OPTIONS, '<br />');
-
-        // visible
-
-        $visible_checkbox = new XoopsFormCheckBox('', 'visible', $visible);
-
-        $visible_checkbox->addOption(1, _TC_VISIBLE);
-
-        $option_tray->addElement($visible_checkbox);
-
-        // submenu
-
-        $submenu_checkbox = new XoopsFormCheckBox('', 'submenu', $submenu);
-
-        $submenu_checkbox->addOption(1, _TC_SUBMENU);
-
-        $option_tray->addElement($submenu_checkbox);
-
-        $form->addElement($option_tray);
-
-        // end of options
-
-        // last_modified
-
-        $lm_tray = new XoopsFormElementTray(_TC_LASTMODIFIED, '&nbsp;');
-
-        $lm_tray->addElement(new XoopsFormLabel('', formatTimestamp($last_modified)));
-
-        $lm_checkbox = new XoopsFormCheckBox('', 'dont_update_last_modified', 0);
-
-        $lm_checkbox->addOption(1, _TC_DONTUPDATELASTMODIFIED);
-
-        $lm_tray->addElement($lm_checkbox);
-
-        $form->addElement($lm_tray);
-
-        // buttons
-
-        $submit_tray = new XoopsFormElementTray('', ' &nbsp; &nbsp; ');
-
-        $submit_tray->addElement(new XoopsFormButton("", "submit", _SUBMIT, "submit"));
-
-        $submit_tray->addElement(new XoopsFormButton("", "cancel", _CANCEL, "submit"));
-
-        $form->addElement($submit_tray);
-
-        // hiddens
-
-        $form->addElement(new XoopsFormHidden('op', $next_op));
-
-        $form->addElement(new XoopsFormHidden('id', $storyid));
-
-        $form->addElement(new XoopsFormHidden('last_modified', $last_modified));
-
-        // Ticket
-
-        $GLOBALS['xoopsGTicket']->addTicketXoopsFormElement($form, __LINE__);
-
-        // end of xoopsForm
-
-        $form->display();
-
-        tinyd_cp_footer();
-
-        break;
-
-// ------------------------------------------------------------------------- //
-
-// INSERT or UPDATE a PageWrap to database                                   //
-
-// ------------------------------------------------------------------------- //
-
-    case "addlink":
-
-    case "linkeditit":
-
-        // Ticket Check
-
-        if (!$xoopsGTicket->check()) {
-
-            redirect_header(XOOPS_URL . '/', 3, $xoopsGTicket->getErrors());
-
-        }
-
-        // security fix (thx JM2)
-
-        $_POST['address'] = str_replace('..', '', $_POST['address']);
-
-        $title4save = addslashes($_POST['title']);
-
-        $address4save = addslashes($_POST['address']);
-
-        $visible = empty($_POST['visible']) ? 0 : 1;
-
-        $submenu = empty($_POST['submenu']) ? 0 : 1;
-
-        $link = empty($_POST['wraproot']) ? 1 : intval($_POST['wraproot']);
-
-        // hp flag is set if there are no records which has flag of homepage
-
-        $result = $xoopsDB->query("SELECT COUNT(*) FROM $mytablename WHERE homepage>0");
-
-        list($count_home) = $xoopsDB->fetchRow($result);
-
-        $hp_flag = $count_home > 0 ? 0 : 1;
-
-        // fetch text for search from wrapped page
-
-        $wrapped_file = "$wrap_path/{$_POST['address']}";
-
-        $ext = strtolower(substr(strrchr($wrapped_file, '.'), 1));
-
-        if (in_array($ext, $page_wrap_search_allowed_exts)) {
-
-            $fp = fopen($wrapped_file, 'r');
-
-            if (!$fp) {
-
-                redirect_header("index.php?op=nlink", 2, _TC_FILENOTFOUND);
-
-                exit;
-
-            }
-
-            $text = addslashes(tc_convert_wrap_to_ie(strip_tags(fread($fp, 65536 * 2))));
-
-            fclose($fp);
-
-        } else {
-
-            $text = '';
-
-        }
-
-        $sql_set = "SET title='$title4save',address='$address4save',visible='$visible',submenu='$submenu',link='$link',text='$text',nohtml='0',nosmiley='0',nobreaks='0'";
-
-        if ($op == 'addlink') {
-
-            $sql = "INSERT INTO $mytablename $sql_set,created=NOW(),homepage='$hp_flag'";
-
-        } else {
-
-            // not to update last_modified
-
-            if (!empty($_POST['dont_update_last_modified'])) {
-                $sql_set .= ",last_modified=last_modified";
-            }
-
-            // change homepage only when it should be turned on
-
-            if ($hp_flag) {
-                $sql_set .= ",homepage='$hp_flag'";
-            }
-
-            $id = empty($_POST['id']) ? 0 : intval($_POST['id']);
-
-            $sql = "UPDATE $mytablename $sql_set WHERE storyid='$id'";
-
-        }
-
-        $result = $xoopsDB->query($sql) or die(_TC_ERRORINSERT);
-
-        redirect_header("index.php?op=show", 2, _TC_DBUPDATED);
-
-        exit;
-
-        break;
-
-// ------------------------------------------------------------------------- //
-
-// Upload File                                                //
-
-// ------------------------------------------------------------------------- //
-
-    case "update_wrap_contents":
-
-        $result = $xoopsDB->query("SELECT storyid,link,address FROM $mytablename WHERE link>0");
-
-        while (list($id, $link, $address) = $xoopsDB->fetchRow($result)) {
-
-            if (stristr($address, '..')) {
-                exit;
-            }
-
-            $wrapped_file = $wrap_path . '/' . $address;
-
-            $ext = strtolower(substr(strrchr($wrapped_file, '.'), 1));
-
-            if (in_array($ext, $page_wrap_search_allowed_exts)) {
-
-                $fp = fopen($wrapped_file, 'r');
-
-                if (!$fp) {
-
-                    continue;
-
-                }
-
-                $text4sql = addslashes(tc_convert_wrap_to_ie(strip_tags(fread($fp, 65536 * 2))));
-
-                fclose($fp);
-
-            } else {
-
-                $text4sql = '';
-
-            }
-
-            $xoopsDB->queryF("UPDATE $mytablename SET text='$text4sql' WHERE storyid=" . intval($id));
-
-        }
-
-        redirect_header("index.php?op=show", 2, _TC_DBUPDATED);
-
-        exit;
-
-        break;
-
-// ------------------------------------------------------------------------- //
-
-// Upload File                                                //
-
-// ------------------------------------------------------------------------- //
-
-    case "upload":
-
-        // Ticket Check
-
-        if (!$xoopsGTicket->check()) {
-
-            redirect_header(XOOPS_URL . '/', 3, $xoopsGTicket->getErrors());
-
-        }
-
-        $source = $_FILES['fileupload']['tmp_name'];
-
-        $fileupload_name = $_FILES['fileupload']['name'];
-
-        if ($source != 'none' && $source != '') {
-
-            $dest = "$wrap_path/$fileupload_name";
-
-            if (file_exists($dest)) {
-
-                redirect_header("index.php?op=nlink", 5, _TC_ERROREXIST);
-
-                exit;
-
-            } else {
-
-                if (copy($source, $dest)) {
-
-                    redirect_header("index.php?op=nlink", 2, _TC_UPLOADED);
-
-                    exit;
-
-                } else {
-
-                    redirect_header("index.php?op=nlink", 5, _TC_ERRORUPL);
-
-                    exit;
-
-                }
-
-                unlink($source);
-
-            }
-
-        }
-
-        break;
-
-// ------------------------------------------------------------------------- //
-
-// Delete File - Confirmation Question                                    //
-
-// ------------------------------------------------------------------------- //
-
-    case "delfile":
-
-        tinyd_cp_header();
-
-        // security fix (thx JM2)
-
-        $_POST['address'] = str_replace('..', '', $_POST['address']);
-
-        xoops_confirm(array('address' => $_POST['address'], 'op' => 'delfileok') + $xoopsGTicket->getTicketArray(__LINE__), 'index.php', _TC_RUSUREDELF, _YES);
-
-                tinyd_cp_footer();
-
-        break;
-
-// ------------------------------------------------------------------------- //
-
-// Delete it definitely                                                      //
-
-// ------------------------------------------------------------------------- //
-
-    case "delfileok":
-
-        // Ticket Check
-
-        if (!$xoopsGTicket->check()) {
-
-            redirect_header(XOOPS_URL . '/', 3, $xoopsGTicket->getErrors());
-
-        }
-
-        // security fix (thx JM2)
-
-        $_POST['address'] = str_replace('..', '', $_POST['address']);
-
-        unlink("$wrap_path/{$_POST['address']}");
-
-        redirect_header("index.php?op=nlink", 2, _TC_FDELETED);
 
         exit;
 
