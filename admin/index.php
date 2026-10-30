@@ -22,6 +22,31 @@ include_once '../class/tinyd.textsanitizer.php';
 
 include_once '../include/gtickets.php';
 
+// admin header with Bootstrap 5 (also restyles XoopsThemeForm tables)
+function tinyd_cp_header()
+{
+    xoops_cp_header();
+
+    echo "<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' />
+<style>
+	.tinyd-admin table.outer { width: 100%; margin-bottom: 1rem; border-collapse: collapse; border: 1px solid #dee2e6; }
+	.tinyd-admin table.outer th { background: #f8f9fa; padding: .5rem .75rem; border: 1px solid #dee2e6; }
+	.tinyd-admin table.outer td { padding: .5rem .75rem; border: 1px solid #dee2e6; vertical-align: middle; }
+	.tinyd-admin table.outer td.head { background: #f8f9fa; font-weight: 600; width: 25%; }
+	.tinyd-admin input[type=text], .tinyd-admin input[type=file], .tinyd-admin input[type=password], .tinyd-admin select, .tinyd-admin textarea { display: inline-block; max-width: 100%; padding: .375rem .75rem; border: 1px solid #ced4da; border-radius: .375rem; }
+	.tinyd-admin input[type=submit], .tinyd-admin input[type=button], .tinyd-admin input[type=reset], .tinyd-admin button { display: inline-block; padding: .375rem .75rem; color: #fff; background: #0d6efd; border: 1px solid #0d6efd; border-radius: .375rem; cursor: pointer; }
+	.tinyd-admin input[type=reset] { color: #212529; background: #e9ecef; border-color: #ced4da; }
+	.tinyd-admin input[type=submit]:disabled { opacity: .65; cursor: not-allowed; }
+</style>
+<div class='tinyd-admin container-fluid'>\n";
+}
+
+function tinyd_cp_footer()
+{
+    echo "</div>\n";
+    xoops_cp_footer();
+}
+
 // branch for altsys
 
 if (defined('XOOPS_TRUST_PATH') && !empty($_GET['lib'])) {
@@ -171,23 +196,11 @@ switch ($op) {
 
     case "show":
 
-        xoops_cp_header();
+        tinyd_cp_header();
 
         include dirname(__FILE__) . '/mymenu.php';
 
-        if (tinyd_check_browser_can_use_spaw()) {
-
-            $can_use_spaw = true;
-
-            $submitlink_with_spaw = "(<a href='index.php?op=submit&amp;usespaw=1' style='font-size:xx-small;'>FCK</a>) <a href='index.php?op=submit&amp;usetinymce=1' style='font-size:xx-small;'>TINYMACE</a>";
-
-        } else {
-
-            $can_use_spaw = false;
-
-            $submitlink_with_spaw = '';
-
-        }
+        $submitlink_with_spaw = '';
 
         // get all instances of TinyD using newblocks table
 
@@ -225,9 +238,19 @@ switch ($op) {
 
         echo "
 
-		<h4>" . $xoopsModule->getVar('name') . "</h4>
+		<h4 class='mb-3'>" . $xoopsModule->getVar('name') . "</h4>
 
-		<div align='right' width='95%'>
+		<div class='d-flex flex-wrap gap-2 mb-3'>
+
+			<a class='btn btn-primary btn-sm' href='?op=submit'>" . _TC_ADDCONTENT . "</a> $submitlink_with_spaw
+
+			<a class='btn btn-outline-primary btn-sm' href='?op=nlink'>" . _TC_ADDLINK . "</a>
+
+			<a class='btn btn-outline-secondary btn-sm' href='?op=update_wrap_contents'>" . _TC_UPDATE_WRAP_CONTENTS . "</a>
+
+		</div>
+
+		<div class='text-end small text-muted mb-2'>
 
 			<b>" . _TC_TH_VISIBLE . "</b>:" . _TC_VISIBLE . " &nbsp;
 
@@ -239,27 +262,35 @@ switch ($op) {
 
 		" . $xoopsGTicket->getTicketHtml(__LINE__) . "
 
-		<table border='0' cellpadding='0' cellspacing='1' width='95%' class='outer'>
+		<div class='table-responsive'>
+
+		<table class='table table-striped table-hover table-bordered align-middle'>
+
+		<thead class='table-light'>
 
 		<tr>
 
-			<th>" . _TC_STORYID . "</th>
+			<th class='text-end'>" . _TC_STORYID . "</th>
 
-			<th>" . _TC_HOMEPAGE . "</th>
+			<th class='text-center'>" . _TC_HOMEPAGE . "</th>
 
 			<th>" . _TC_LINKNAME . "</th>
 
-			<th>" . _TC_LINKID . "</th>
+			<th class='text-center'>" . _TC_LINKID . "</th>
 
-			<th>" . _TC_TH_VISIBLE . "</th>
+			<th class='text-center'>" . _TC_TH_VISIBLE . "</th>
 
-			<th>" . _TC_TH_SUBMENU . "</th>
+			<th class='text-center'>" . _TC_TH_SUBMENU . "</th>
 
 			<th>" . _TC_CONTENTTYPE . "</th>
 
-			<th style='text-align:right;'>" . _TC_ACTION . "</th>
+			<th class='text-end'>" . _TC_ACTION . "</th>
 
-		</tr>\n";
+		</tr>
+
+		</thead>
+
+		<tbody>\n";
 
         $result = $xoopsDB->query("SELECT storyid,blockid,title,visible,homepage,        link,submenu,nohtml,UNIX_TIMESTAMP(last_modified) FROM $mytablename ORDER BY blockid");
 
@@ -301,11 +332,7 @@ switch ($op) {
 
                 $opname_for_delete = _TC_DELETE;
 
-                if ($can_use_spaw) {
-                    $link_to_spaw = "(<a href='?op=edit&amp;id=$id&amp;usespaw=1' style='font-size:xx-small;'>FCK</a>&nbsp<a href='?op=edit&amp;id=$id&amp;usetinymce=1' style='font-size:xx-small;'>TI</a>)";
-                } else {
-                    $link_to_spaw = '';
-                }
+                $link_to_spaw = '';
 
                 switch ($nohtml) {
 
@@ -381,27 +408,30 @@ switch ($op) {
 
                 }
 
+                // editing is always done with CKEditor, so no per-editor links
+                $extended_link = '';
+
             }
 
             echo "
 
-		<tr class='$line_class'>
+		<tr>
 
-			<td align='right'>$id<input type='hidden' name='id[]' value='$id' /></td>
+			<td class='text-end'>$id<input type='hidden' name='id[]' value='$id' /></td>
 
-			<td align='center'><input type='radio' name='homepage' value='$id' " . ($homepage ? "checked='checked'" : "") . " /></td>
+			<td class='text-center'><input class='form-check-input' type='radio' name='homepage' value='$id' " . ($homepage ? "checked='checked'" : "") . " /></td>
 
 			<td><a href='../index.php?id=$id'>$title4show</a></td>
 
-			<td align='center'><input type='text' name='blockid[$id]' size='3' maxlength='8' value='$weight' style='text-align:right;' /></td>
+			<td class='text-center'><input class='form-control form-control-sm text-end' style='width:5rem;display:inline-block;' type='text' name='blockid[$id]' size='3' maxlength='8' value='$weight' /></td>
 
-			<td align='center'><input type='checkbox' name='visible[$id]' $visible_checked /></td>
+			<td class='text-center'><input class='form-check-input' type='checkbox' name='visible[$id]' $visible_checked /></td>
 
-			<td align='center'><input type='checkbox' name='submenu[$id]' $submenu_checked /></td>
+			<td class='text-center'><input class='form-check-input' type='checkbox' name='submenu[$id]' $submenu_checked /></td>
 
-			<td>$content_type</td>
+			<td><span class='badge text-bg-secondary'>$content_type</span></td>
 
-			<td align='right'><a href='index.php?op=$op_for_edit&amp;id=$id'>$opname_for_edit</a> $extended_link | <a href='index.php?op=delete&amp;id=$id'>$opname_for_delete</a> | <input type='checkbox' name='checked_ids[$id]' /><br />" . formatTimestamp($last_modified, "m") . "</td>
+			<td class='text-end'><a href='index.php?op=$op_for_edit&amp;id=$id'>$opname_for_edit</a> $extended_link | <a class='text-danger' href='index.php?op=delete&amp;id=$id'>$opname_for_delete</a> | <input class='form-check-input' type='checkbox' name='checked_ids[$id]' /><br /><small class='text-muted'>" . formatTimestamp($last_modified, "m") . "</small></td>
 
 		</tr>\n";
 
@@ -409,93 +439,51 @@ switch ($op) {
 
         echo "
 
+		</tbody>
+
+		<tfoot>
+
 		<tr>
 
-			<th colspan='9' style='text-align:right;'>
+			<td colspan='8' class='text-end'>
+
+				<div class='d-inline-flex align-items-center gap-2'>
 
 				" . _TC_CHECKED_ITEMS_ARE . "
 
-				<input type='submit' name='moveto' value=" . _TC_BUTTON_MOVETO . " disabled='disabled' />
-
-				<select name='dest_tinyd' onchange='document.MainForm.moveto.disabled=false;'>
+				<select class='form-select form-select-sm w-auto' name='dest_tinyd' onchange='document.MainForm.moveto.disabled=false;'>
 
 					$dest_tinyd_options
 
 				</select>
 
-			</th>
+				<input class='btn btn-outline-primary btn-sm' type='submit' name='moveto' value='" . _TC_BUTTON_MOVETO . "' disabled='disabled' />
+
+				</div>
+
+			</td>
 
 		</tr>
+
+		</tfoot>
 
 	</table>
 
-	<br />
+	</div>
 
-	<div align='center'>
+	<div class='text-center mb-4'>
 
 		<input type='hidden' name='op' value='update' />
 
-		<input type='submit' name='submit' value=" . _SUBMIT . " />
+		<input class='btn btn-primary' type='submit' name='submit' value='" . _SUBMIT . "' />
 
-		<input type='reset' />
+		<input class='btn btn-outline-secondary' type='reset' />
 
 	</div>
 
-	</form>
+	</form>\n";
 
-	<table border='0' cellpadding='0' cellspacing='5'><tr>
-
-	<td>
-
-		<table border='0' cellpadding='0' cellspacing='1' class='outer'>
-
-		<tr>
-
-			<td class='odd'><a href='?op=submit'>" . _TC_ADDCONTENT . "</a> $submitlink_with_spaw</td>
-
-		</tr>
-
-		</table>
-
-	</td>
-
-	<td>
-
-		<table border='0' cellpadding='0' cellspacing='1' class='outer'>
-
-		<tr>
-
-			<td class='even'><a href='?op=nlink'>" . _TC_ADDLINK . "</a></td>
-
-		</tr>
-
-		</table>
-
-	</td>
-
-	<td>
-
-		<table border='0' cellpadding='0' cellspacing='1' class='outer'>
-
-		<tr>
-
-			<td class='odd'><a href='?op=update_wrap_contents'>" . _TC_UPDATE_WRAP_CONTENTS . "</a></td>
-
-		</tr>
-
-		</table>
-
-	</td>\n";
-
-        echo "
-
-		</table>
-
-	</td>
-
-	</tr></table>\n";
-
-        xoops_cp_footer();
+        tinyd_cp_footer();
 
         break;
 
@@ -565,7 +553,7 @@ switch ($op) {
 
     case "edit":
 
-        xoops_cp_header();
+        tinyd_cp_header();
 
         include dirname(__FILE__) . '/mymenu.php';
 
@@ -669,61 +657,15 @@ switch ($op) {
 
         // get configs
 
-        $tarea_width = empty($xoopsModuleConfig['tc_tarea_width']) ? 35 : intval($xoopsModuleConfig['tc_tarea_width']);
-
         $header_tarea_height = empty($xoopsModuleConfig['tc_header_tarea_height']) ? 0 : intval($xoopsModuleConfig['tc_header_tarea_height']);
 
-        $body_tarea_height = empty($xoopsModuleConfig['tc_tarea_height']) ? 37 : intval($xoopsModuleConfig['tc_tarea_height']);
-
-        // title and textarea selection
-
-        $js_confirm = 'if(MainForm.message.value!="") return confirm("' . _TC_JS_CONFIRMDISCARD . '");';
+        $tarea_width = empty($xoopsModuleConfig['tc_tarea_width']) ? 35 : intval($xoopsModuleConfig['tc_tarea_width']);
 
         echo "
 
-		<div width='100%'>
+		<h4 class='mb-3'>" . $xoopsModule->getVar('name') . "</h4>\n";
 
-			<span style='font-size:normal; font-weight: bold;'>
-
-				" . $xoopsModule->getVar('name') . "
-
-			</span>
-
-			 &nbsp;
-
-			<span style='font-size:xx-small'>
-
-				<a href='?op=$op&amp;id=$id' onclick='$js_confirm'>BB</a> &nbsp;
-
-				<a href='?op=$op&amp;id=$id&amp;usespaw=1' onclick='$js_confirm'>FCK</a> &nbsp;
-
-				<a href='?op=$op&amp;id=$id&amp;usetinymce=1' onclick='$js_confirm'>TINYMCE</a> &nbsp;
-
-				<a href='?op=$op&amp;id=$id&amp;useplain=1' onclick='$js_confirm'>PLAIN</a>
-
-			</span>
-
-		</div>\n";
-
-        // Form target
-
-        if (!empty($_GET['usespaw'])) {
-
-            $form_target = 'index.php?usespaw=1';
-
-        } elseif (!empty($_GET['usetinymace'])) {
-
-            $form_target = 'index.php?usetinymace=1';
-
-        } else if (!empty($_GET['useplain'])) {
-
-            $form_target = 'index.php?useplain=1';
-
-        } else {
-
-            $form_target = 'index.php';
-
-        }
+        $form_target = 'index.php';
 
         // beggining of xoopsForm
 
@@ -749,80 +691,16 @@ switch ($op) {
 
         }
 
-        // content body
+        // content body (CKEditor from tadtools)
 
-        $spaw_flag = false;
+        mk_dir(XOOPS_ROOT_PATH . "/uploads/$mydirname/");
+        mk_dir(XOOPS_ROOT_PATH . "/uploads/$mydirname/image");
+        mk_dir(XOOPS_ROOT_PATH . "/uploads/$mydirname/file");
+        $ck = new CkEditor($mydirname, "message", $message);
+        $ck->setHeight(500);
+        $editor = $ck->render();
 
-        if (!empty($_GET['usespaw'])) {
-
-            // SPAW Config
-
-            /*include XOOPS_ROOT_PATH.'/common/spaw/spaw_control.class.php' ;
-
-            if( tinyd_check_browser_can_use_spaw() ) {
-
-            ob_start() ;
-
-            $sw = new SPAW_Wysiwyg( 'message' , $message ,'zh-tw_utf8' ) ;
-
-            $sw->show() ;
-
-            $form->addElement( new XoopsFormLabel( _TC_CONTENT , ob_get_contents() ) ) ;
-
-            ob_end_clean() ;
-
-            $spaw_flag = true ;
-
-            }*/
-
-            mk_dir(XOOPS_ROOT_PATH . "/uploads/$mydirname/");
-            mk_dir(XOOPS_ROOT_PATH . "/uploads/$mydirname/image");
-            mk_dir(XOOPS_ROOT_PATH . "/uploads/$mydirname/file");
-            $ck = new CkEditor($mydirname, "message", $message);
-            $ck->setHeight(500);
-            $editor = $ck->render();
-
-            $form->addElement(new XoopsFormLabel(_TC_CONTENT, $editor));
-
-            $spaw_flag = true;
-
-        } elseif (!empty($_GET['usetinymce'])) {
-
-            // SPAW Config
-
-            if (is_readable(XOOPS_ROOT_PATH . "/class/xoopseditor/tinymce/formtinymce.php")) {
-
-                include_once XOOPS_ROOT_PATH . "/class/xoopseditor/tinymce/formtinymce.php";
-
-                $t_area = new XoopsFormTinymce(array('caption' => _TC_CONTENT, 'name' => 'message', 'value' => htmlspecialchars($message, ENT_QUOTES), 'cols' => $body_tarea_height, 'rows' => $tarea_width, 'xEditor' => '1'));
-
-                $t_area->setExtra("style='width: {$tarea_width}em;'");
-
-                $form->addElement($t_area);
-
-                $spaw_flag = true;
-
-            }
-
-        }
-
-        if (!$spaw_flag) {
-
-            if (empty($_GET['useplain'])) {
-
-                $t_area = new XoopsFormDhtmlTextArea(_TC_CONTENT, 'message', htmlspecialchars($message, ENT_QUOTES), $body_tarea_height, $tarea_width);
-
-            } else {
-
-                $t_area = new XoopsFormTextArea(_TC_CONTENT . "<br /><br /><br /><br /><a href='$mymodurl/admin/text_wiki_sample.php?lang={$xoopsConfig['language']}' target='_blak'>Text_Wiki Sample</a>", 'message', htmlspecialchars($message, ENT_QUOTES), $body_tarea_height, $tarea_width);
-
-            }
-
-            $t_area->setExtra("style='width: {$tarea_width}em;'");
-
-            $form->addElement($t_area);
-
-        }
+        $form->addElement(new XoopsFormLabel(_TC_CONTENT, $editor));
 
         // options
 
@@ -836,21 +714,9 @@ switch ($op) {
 
         $option_tray->addElement($smiley_checkbox);
 
-        // nobreaks
+        // nobreaks (CKEditor content is HTML)
 
-        if ($spaw_flag) {
-
-            $form->addElement(new XoopsFormHidden('nobreaks', 1));
-
-        } else {
-
-            $breaks_checkbox = new XoopsFormCheckBox('', 'nobreaks', $nobreaks);
-
-            $breaks_checkbox->addOption(1, _TC_DISABLEBREAKS);
-
-            $option_tray->addElement($breaks_checkbox);
-
-        }
+        $form->addElement(new XoopsFormHidden('nobreaks', 1));
 
         // visible
 
@@ -870,29 +736,9 @@ switch ($op) {
 
         $form->addElement($option_tray);
 
-        // end of options
+        // content type is always HTML (CKEditor)
 
-        // content type
-
-        $htmltype_select = new XoopsFormSelect(_TC_CONTENT_TYPE, 'nohtml', $nohtml);
-
-        $htmltype_select->addOption(0, _TC_TYPE_HTML);
-
-        $htmltype_select->addOption(2, _TC_TYPE_HTMLNOBB);
-
-        $htmltype_select->addOption(1, _TC_TYPE_TEXTWITHBB);
-
-        $htmltype_select->addOption(3, _TC_TYPE_TEXTNOBB);
-
-        $htmltype_select->addOption(8, _TC_TYPE_PHPHTML);
-
-        $htmltype_select->addOption(10, _TC_TYPE_PHPWITHBB);
-
-        $htmltype_select->addOption(16, _TC_TYPE_PEARWIKI);
-
-        $htmltype_select->addOption(18, _TC_TYPE_PEARWIKIWITHBB);
-
-        $form->addElement($htmltype_select);
+        $form->addElement(new XoopsFormHidden('nohtml', 0));
 
         // last_modified
 
@@ -940,29 +786,11 @@ switch ($op) {
 
         $GLOBALS['xoopsGTicket']->addTicketXoopsFormElement($form, __LINE__);
 
-/*    echo '
-
-<!-- tinyMCE -->
-
-<script language="javascript" type="text/javascript" src="/common/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
-
-<script language="javascript" type="text/javascript">
-
-tinyMCE.init({
-
-mode : "textareas"
-
-});
-
-</script>
-
-<!-- /tinyMCE -->' ;*/
-
         // end of xoopsForm
 
         $form->display();
 
-        xoops_cp_footer();
+        tinyd_cp_footer();
 
         // preview popup
 
@@ -1078,7 +906,7 @@ mode : "textareas"
 
     case "elink":
 
-        xoops_cp_header();
+        tinyd_cp_header();
 
         include dirname(__FILE__) . '/mymenu.php';
 
@@ -1268,7 +1096,7 @@ mode : "textareas"
 
         $form->display();
 
-        xoops_cp_footer();
+        tinyd_cp_footer();
 
         break;
 
@@ -1486,7 +1314,7 @@ mode : "textareas"
 
     case "delfile":
 
-        xoops_cp_header();
+        tinyd_cp_header();
 
         include dirname(__FILE__) . '/mymenu.php';
 
@@ -1496,7 +1324,7 @@ mode : "textareas"
 
         xoops_confirm(array('address' => $_POST['address'], 'op' => 'delfileok') + $xoopsGTicket->getTicketArray(__LINE__), 'index.php', _TC_RUSUREDELF, _YES);
 
-        xoops_cp_footer();
+                tinyd_cp_footer();
 
         break;
 
@@ -1536,13 +1364,13 @@ mode : "textareas"
 
     case "delete":
 
-        xoops_cp_header();
+        tinyd_cp_header();
 
         include dirname(__FILE__) . '/mymenu.php';
 
         xoops_confirm(array('id' => intval($_GET['id']), 'op' => 'deleteit') + $xoopsGTicket->getTicketArray(__LINE__), 'index.php', _TC_RUSUREDEL, _YES);
 
-        xoops_cp_footer();
+                tinyd_cp_footer();
 
         break;
 
@@ -1674,11 +1502,4 @@ mode : "textareas"
 
         break;
 
-}
-
-// checks browser compatibility with the control
-
-function tinyd_check_browser_can_use_spaw()
-{
-    return true; // for nobunobu's spaw 2005-5-10
 }
