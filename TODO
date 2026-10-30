@@ -1,0 +1,10 @@
+- Document or Sample for Usage
+
+magic_quotes GPC のチェック
+eval() を少しでも減らす
+
+usernameベースで編集権限を渡す機能（編集者専用コントローラ）
+
+Smartyにパースさせるモード
+
+そろそろ onUpdate だけの対応に切り替える

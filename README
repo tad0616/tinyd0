@@ -1,0 +1,146 @@
+[mlimg][xlang:en]
+TinyD is a forked module based on Tiny Content made by chapi.
+
+Tiny Content is simple and light content module.
+Since I think that simpleness and lightness is the most important factor for content module, I love this module.
+
+I want to clone this module but it is not so easy.
+Thus, I experimented to make a module which can be easily cloned.
+Though it has not understood whether this experiment succeeded yet, I distribute this funny hacked module.
+
+I thanks to the author -Tobias Liegl (AKA CHAPI)-.
+
+
+HOW TO USE:
+
+If you are new user of TinyD or TinyContent, upload modules/tinyd0 and install it. (It's quite normal way as a Module for Xoops)
+
+If you want to use features of PEAR Wiki or SPAW editor, upload common/PEAR and common/spaw into your XOOPS_ROOT_PATH.
+
+If you already a user of CHAPI's TinyContent, rename tinyd0 to tinycontent and overwrite tinycontent/. After this, update the module in module's admin.
+
+If you already a user of TinyD, reneme tinyd0 to tinycontent* as you like.
+Of course, updating module is necessary.
+
+
+You can clone this module easily. only copy them.
+And the rule of directory's name is quite simple.
+
+This module judges its number by tale of directory's name.
+
+modules/tinyd0 - treated as No.0 module of TinyD
+modules/tinycontent1 - treated as No.1 moudle of TinyD
+modules/c2    - treated as No.2 module of TinyD
+modules/tinycontent - treated as unnumbered module of TinyD
+
+The numbers of TinyD have to be unique.
+Also, unnumbered module have to be unique.
+
+You can install or upgrade TinyD as modules/tinycontent/ for compatibility of URI.
+
+Moreover, this module demonstrates more abilities with mod_rewrite when you wrap many pages.
+If you can use mod_rewrite, rename .htaccess.rewrite into .htaccess .
+
+
+APPENDIX:
+
+This project has already exceeded the experimentation phase and reached practical stage.
+I modified almost files and has been changed far from original spec.
+I recommend this hacked module with confidence.
+
+After mh012, you can also duplicate blocks.
+It is useful as replacement as custom blocks or summary of contents.
+
+If you want to use this block as summary, use [summary][/summary] tag.
+In content block, you can see inside of this tags on the other hand you can see whole of contents in main part.
+
+And you also want to add a link for full view, copy templates/blocks/tinycontent_content_block.html.dist to templates/blocks/tinycontent_content_block.html and edit it as you like.
+
+
+APPENDIX2:
+
+If you want to use SPAW integrated with myAlbum-P, set the path for
+phtos/thumbnails like this:
+
+/uploads/photos(number)/
+/uploads/thumbs(number)/
+
+
+[/xlang:en]
+[xlang:ja]
+
+これは、CHAPIさん（本名 Tobias Liegl）の作ったコンテンツモジュール
+Tiny Content をベースに大改造したモジュールです。
+
+当初は、シンプルなHack版でしたが、紆余曲折あって、今や完全オリジナルモジュールと呼んでも差し支えないレベルになっていると自負しています。
+
+
+使い方:
+
+新規インストールであれば、アーカイブを展開した中にある modules/tinyd0 を普通にインストールしてください。
+
+PEAR Wiki機能や、spaw編集機能が必要であれば、XOOPSインストールディレクトリに、このアーカイブ内のcommonディレクトリを丸ごとコピーしてください。
+
+用途によっては、content フォルダを書込可能にする(chmod 777等)必要がありますが、そういう使い方はあまりお奨めしません。
+
+すでにchapiさんのTiny Content を使っている場合、modules/tinyd0 を、modules/tinycontent とリネームして上書きし、その後、モジュールアップデートを行って下さい。
+
+過去のTinyDを使っている場合も同様に、tinycontent0 等とリネームしてモジュールアップデートを行って下さい。
+
+すべてのTinyDについて、上書き&アップデートを行う必要があります。
+
+
+このことからもお判りいただけると思いますが、TinyD2 は、かなり自由にディレクトリ名を決められます。
+ただし、ちょっとしたルールがあるので、それだけは守らなくてはいけません。
+(数字以外が１字以上)+(数字が１字以上)
+という名前にしてください。
+
+デフォルトの 'tinyd0' は、もちろんOKです。
+このディレクトリに置かれたモジュールは、TinyDの0番目として扱われます。
+
+このモジュールをコピーして、'test1' として置けば、TinyDの1番目のできあがり。
+'test00003' とかしても良いですが、これは3番目になります。
+
+とりあえず、番号無し,0,1,2,3...9 と９つだけ用意してあります。
+テンプレートとsqlファイルを用意しさえすれば、いくつでも複製可能です。
+
+番号なしのdirnameは１つだけ可能です。tinycontentとすることで、URI互換を保てます。
+
+
+また、このモジュールは、複数ページのラッピングを行う時など、mod_rewrite を利用することで、より実力を発揮します。
+もし、お使いのサーバがmod_rewriteを使えるようでしたら、モジュールディレクトリ直下にある、.htaccess.rewrite を .htaccess とリネームしてお使い下さい。tinycontent内のすべてのページを、静的ページに見せかける、なんてことも可能となります。(SEO対策となるかどうかは知りません。というか、少なくとも私は興味ありません）
+
+
+mh012 から、ブロックも複製可能となりました。複製可能モジュール内に、複製可能のブロックがある。もはや何がなんだか、という状況ですが、カスタムブロックの置き換えとしても、コンテンツの要約としても、それなりに使い勝手は良いだろうと思っています。
+
+なお、要約として利用する場合は、要約部分を[summary][/summary]で挟んでください。ブロックにはこの内側だけが表示され、メイン部分には全体が表示されます。
+
+さらに、要約で表示されたブロックから元記事へリンクするには、templates/blocks/tinycontent_content_block.html.dist というファイルを tinycontent_content_block.html という名前でコピーし、適宜書き換えてください
+
+
+
+
+蛇足:
+
+最初は、あくまで実験のつもりだったのですが、「複製可能」というスペックが想像以上に使いやすく、他の利用者からも好評だったので、今はCHAPIさんのオリジナルコードも含め、かなり手を入れています。……というか、かなり好き勝手に突っ走ってます（笑）。
+
+そろそろ、オリジナルと区別するためにも、別の呼び方をした方が良いだろう、と思っていた頃にたまたま目にした paopaoさんの呼び方 "TinyD" が気に入ったので、こちらを公式名としています。
+
+バージョンも独立して、2.0としています。1.5 mh014 という表現があまりにも判りづらかったためです。
+
+最後になりましたが、TinyConentという素晴らしく、改造しやすいモジュールを公開してくれたCHAPIさんに感謝します。
+
+
+蛇足2:
+
+もし、common SPAW を myAlbum-P と協調的に使うためには、myAlbum-P側の
+画像/サムネイルディレクトリを次のようにする必要があります。
+
+/uploads/photos(number)/
+/uploads/thumbs(number)/
+
+他のパスにあってもSPAWの画像選択ダイアログは認識しませんので、ご注意
+ください。
+
+
+[/xlang:ja]

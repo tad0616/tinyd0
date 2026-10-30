@@ -1,0 +1,5 @@
+<{$content|default:''}>
+<{if $is_summary|default:false}>
+  <br />
+  <a href="<{$mymoddir|default:''}>/index.php?id=<{$storyid|default:''}>"><{$lang_more|default:''}></a>
+<{/if}>

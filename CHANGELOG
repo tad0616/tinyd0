@@ -1,0 +1,885 @@
+[xlang:en]
+
+CHANGELOG:
+
+
+
+2006-10-31 2.30beta
+
+- updated mymenu for compatibility with Cube 2.1
+
+- fixed wrong URI for redirection (thx morry)
+
+- added language files
+
+-- persian (thx voltan)
+
+
+
+2006-08-09 2.25
+
+- fixed compatibility with Cube 2.1 (thx minahito)
+
+- modified templates of tinycontent*_index.html (thx jidaikobo)
+
+
+
+2006-07-14 2.24
+
+- changed the spec of "Text without BB" from $myts to htmlspecialchars()
+
+- remove <pre></pre> from "HTML without HTML"
+
+
+
+2006-06-27 2.23
+
+- fixed PHP contents displayed as is in search module (thx suin)
+
+- changed calling Text_Wiki with htmlspecialchars() (thx sunaoka)
+
+
+
+2006-04-22 2.22
+
+- fixed the compatibility among mod_rewrite and xoops comment (thx t_yamo)
+
+
+
+2006-04-11 2.21
+
+- added a feature of update wrapped contents for searching
+
+- modified invalid xhtml in some templates (thx kimono)
+
+- added mytplsadmin
+
+
+
+2006-02-13 2.20
+
+- updated mymenu (for the compatibility with XoopsCube 2.1)
+
+- modified the compatibility between "rewrite mode" and "fastest cache hack"
+
+- added portuguesebr language files (thx Izzy)
+
+
+
+2005-11-14 2.19
+
+- modified the compatibilities with PHP 5.0.5
+
+- remove CRs in some php files
+
+
+
+2005-8-27 2.18
+
+- modified a compatibility with XOOPS 2.1/2.2
+
+- updated myblocksadmin into 0.40
+
+- modified Render/Xhtml/Code.php in PEAR Text_Wiki
+
+
+
+2005-5-31 2.17
+
+- modified common's SPAW can use with Windows server
+
+- updated gtickets.php
+
+- fixed preview breaks editing mode
+
+- modified {X_SITEURL} in all of contents will be converted to XOOPS_URL
+
+- fixed WRAP2&3's URI to top in page navigation
+
+- modified common SPAW with myAlbum-P as attachment manager (2.17a)
+
+
+
+2005-5-11 2.16
+
+- added singlecontent.php for popup etc.
+
+- added common html header into preferences
+
+- fixed a bug in page navigation (thx kumakichi)
+
+- updated common's SPAW into nobunobu version based on 1.0.7 (special thx nobunobu!)
+
+- modified you can edit with WYSIWYG editor via Firefox
+
+
+
+2005-5-02 2.15
+
+- fixed XSS in common's SPAW (thx nobunobu!)
+
+
+
+2005-4-20 2.14
+
+- added submenu unit mode into page navigation
+
+
+
+2005-4-19 2.13
+
+- fixed heading in SPAW
+
+- added assigning 'xoops_default_comment_title' for "Comment Anywhere"
+
+
+
+2005-4-17 2.12
+
+- modified "modules/less" mode can use xoops comments
+
+- modified WRAP2 can use xoops comments
+
+
+
+2005-4-16 2.11
+
+- fixed "export" doesn't check if admin of the target module.
+
+- added the rule page of PEAR::Text_Wiki
+
+- updated PEAR::Text_Wiki into 1.0 stable
+
+
+
+2005-4-13 2.10
+
+- added a field for HTML headers (check $xoops_module_header in your theme.html)
+
+- added a field for created date
+
+- added "export" to other TinyDs
+
+- added "saveas/clone" in content's editor
+
+- fixed a typo in the interface to search module by suin
+
+- fixed a bug with treating homepage
+
+
+
+2005-3-4 2.07
+
+- added INDEXes into sql/tinycontent*.sql
+
+- modified the onupdate feature adding field of last_modified automatically
+
+- modified saving last_modified in batch update
+
+- added some samples -last modified or edit link- into tinycontent_index.html
+
+- updated myblocksadmin 0.27 & mymenu 0.12
+
+- modified english language files (thx Peter)
+
+
+
+2005-2-22 2.06
+
+- fixed notice with some httpd (thx karedokx)
+
+- updated myblocksadmin 0.26 & mymenu 0.11
+
+
+
+2005-2-19 2.05
+
+- added a mode collaborate with "tell a friend" by GIJOE
+
+- added a mode of "modules/less" experimentaly
+
+- fixed some bad links in blocks admin (thx karedokx)
+
+- modified search.inc.php can display bodies with "search module" by suin
+
+
+
+2005-2-11 2.04
+
+- fixed a bug comments is not usable with homepage (thx hodaka)
+
+- added a mode without BB code into HTML and Text
+
+
+
+2005-2-6 2.03
+
+- modified preview works with firefox etc.
+
+- added an assignment homepage_id
+
+- updated myblocksadmin 0.25 & mymenu 0.10
+
+
+
+2005-1-8 2.02
+
+- updated myblocksadmin 0.23
+
+
+
+2004-12-30 2.01
+
+- added link to full view in content block with [summary][/summary]
+
+- fixed a bug with specifying homepage (thx HODAKA)
+
+- added blank directory rewrite/ for mod_rewrite (thx uishii)
+
+- updated myblocksadmin 0.22 & mymenu 0.07
+
+
+
+2004-12-7  2.00
+
+- added ticket system for the security
+
+- modified the values of block's options will be kept when module is updated (thx nobunobu)
+
+- modified as DUPLICATABLE V2.1
+
+- modified PEAR & spaw separated
+
+- modified spaw can insert images from myAlbum-P's ImageManager Integration (thx nobunobu)
+
+- many bugs fixed
+
+- some security holes are fixed (special thx JM2!)
+
+
+
+2004-7-7  1.5mh014
+
+- fixed a bug about sanitize when magic_quotes_gpc is On (thx Ryuji)
+
+
+
+2004-6-25  1.5mh013
+
+- fixed a bug of redeclair rendering functions (thx Christoph)
+
+- applied some php environment is not defined 'PATH_SEPARATOR' (thx toshimitsu)
+
+- added sunday_Text_Wiki (commented out in default) (thx minahito!)
+
+
+
+2004-6-18  1.5mh012
+
+- added content block (this block is duplicatable !)
+
+-- if you want to use template, rename tinycontent_content_block.html.dist to tinycontent_content_block.html and edit it.
+
+- added class TinyDTextSanitizer extends MyTextSanitizer
+
+- added tag [siteimg]
+
+- added tag [summary][/summary] only text inside this tag will be displayed in content block
+
+- added WRAP4 mode (replace attribute of 'src' or 'href')
+
+- added "double space to space + & nbsp;" mode
+
+- fixed typo in page navigation (thx HODAKA)
+
+- fixed encoding problem with search (thx almhouse)
+
+- added swedish language files (thx Leif Madsen)
+
+
+<{$xoops_module_header|default:''}>
+2004-6-2   1.5mh011
+
+- added a config can select block of tc_nav's target
+
+- added a config whether it displays "printer friendly" icon or not
+
+- added a config whether it displays "tell a friend" icon or not
+
+- added page navigation
+
+- updated mymenu
+
+
+
+2004-5-6   1.5mh010
+
+- fixed the trouble which occurs in languages other than English
+
+- added temporary language files of danish, french, german, nederlands, spanish, tchinese (Better language files are appriciated.)
+
+
+
+2004-4-27  1.5mh009
+
+- Fixed enable to select spaw when making new content (2nd careless mistake)
+
+- Modified changeable the editor for textarea in editing part
+
+
+
+2004-4-25  1.5mh008
+
+- fixed careless mistake in xoops_version.php (thx DonXoop)
+
+
+
+2004-4-23  1.5mh007
+
+- added mod_rewrite for each page wrapping
+
+- added mod_rewrite for module entirely (SEO?)
+
+- modified that relative link in wrapped html can be displayed in XOOPS automatically by using mod_rewrite (special thx to minahito!)
+
+- added encoding translation in dislaying wrapped html
+
+- added PEAR Wiki mode (special thx to minahito!)
+
+- added PHP mode
+
+- added preview
+
+- added selectable switch to use or not to use SPAW according to the usage
+
+- modified that the size of textarea can be changed
+
+- united checkboxes into "enable comments". (not to use "disable comments")
+
+- modified the action when "homepage" can't be displayed
+
+- added field for timestamp. (you should "alter table" in list view)
+
+
+
+2004-4-10  1.5mh006
+
+- Base of page wrapping can be changed into the directory same as the page.
+
+- Chanegd wrapped contents is searchable
+
+- Templatized printing script
+
+- Renamed .htaccess into .htaccess.dist for some environment.
+
+-- (If you want more secure, rename it back as .htaccess manually)
+
+- Changed even homepage is displayed in Submenu.
+
+- Modification with "tell to a friend" in muti-byte environment.
+
+- Changed to use SPAW instance in tinycontent/admin/spaw from every tinycontent*. (another tinycontent*/admin/spaw can be deleted.)
+
+- Debugged with SPAW (eg. wrong virtual paths in dialogs)
+
+- Changed as selectable SPAW's language from tinycontent's language files.
+
+- Improved a variety of code and changed minor specifications.
+
+
+
+2004-3-10  1.5mh005
+
+- submenu's priority added (thx Tom_G3X)
+
+- myblocksadmin updated into 0.05
+
+
+
+2004-2-29  1.5mh004
+
+- myblocksadmin updated
+
+- modified to work fine under register_globals off
+
+- .htaccess added
+
+
+
+2004-2-26  1.5mh003
+
+- Templates of each modules was separated. If you used customized template, rebuild template please. (spcial thx toshimitsu)
+
+- A security hole of SPAW has fixed.
+
+- Another some fixes
+
+
+
+2004-2-23  1.5mh002
+
+- Fixed typo in tc_navigation.php (thx toshimitsu)
+
+- use eval() instead of function definition multiply (special thx minahito!)
+
+
+
+2004-2-18  1.5mh001
+
+- The first release version
+
+
+
+
+
+
+
+[/xlang:en]
+
+[xlang:ja]
+
+
+
+�ѹ�����:
+
+
+
+2006-10-31 2.30beta
+
+- Cube 2.1 �Ȥθߴ����Τ���ˡ�mymenu�򥢥åץǡ���
+
+- ������쥯�����/�Ĥ�˺����� (thx morry)
+
+- ����ե������ɲ�
+
+-- �ȥ륳�� (thx voltan)
+
+
+
+2006-08-09 2.25
+
+- Cube 2.1 ��ư���ʤ��ä��Τ��� (thx minahito)
+
+- tinycontent*_index.html�Υƥ�ץ졼�Ȥ���� (thx jidaikobo)
+
+
+
+2006-07-14 2.24
+
+- �ƥ�����(BB̵��)�λ��ͤ��ѹ� ��htmlspecialchars()���ᤷ�����Խ������б���
+
+- HTML(BB̵��)�ˡ��ʤ���<pre>���Ĥ��Ƥ��ޤäƤ���Τ��� (thx gandalf)
+
+
+
+2006-06-27 2.23
+
+- XOOPS�����⥸�塼��ǡ�PHP����ƥ�Ĥ������ɤ���ɽ������Ƥ��ޤ��Τ��� (thx suin)
+
+- Text_Wiki �θƤӽФ������褢��٤�����ƥ��ƥ������礱�Ƥ����Τ��� (thx sunaoka)
+
+
+
+2006-04-22 2.22
+
+- rewrite�⡼�ɤ����WRAP3�ǥ����Ƚ��������������ä��Τ��� (thx t_yamo)
+
+
+
+2006-04-11 2.21
+
+- ��åץ���ƥ�Ĥθ�������ʸ���ư�ǰ�繹�����뵡ǽ��Ĥ���
+
+- �ƥ�ץ졼����ˤ����Ĥ����ä���xhtml invalid ��HTML���� (thx kimono)
+
+- mytplsadminƳ��
+
+
+
+2006-02-13 2.20
+
+- mymenu���� (XoopsCube 2.1�Ȥθߴ���)
+
+- rewrite�⡼�ɤ�fastest cache hack �Ȥ�����������
+
+- �ݥ�ȥ���֥饸����ɲ� (thx Izzy)
+
+
+
+2005-11-14 2.19
+
+- PHP 5.0.5 �Ȥ������������
+
+- ���ԥ����ɤ�CR+LF �ȤʤäƤ�����ʬ��LF������
+
+
+
+2005-8-27 2.18
+
+- XOOPS 2.1/2.2 �Ȥθߴ������� ��ư���ǧ)
+
+- myblocksadmin �� 0.40 �˾夲��
+
+- PEAR Text_Wiki �� code ���������������ä��Τ򾡼�˽���
+
+
+
+2005-5-31 2.17
+
+- Windows�����Ф�SPAW���Ȥ��ʤ��ä��Τ���
+
+- gtickets.php �ι���
+
+- �ץ�ӥ塼����ȡ�SPAW��PLAIN�ʤɤΥ⡼�ɤ��˲�����Ƥ����Τ���
+
+- XOOPS_URL�˶����Ѵ������ {X_SITEURL} �Ȥ���������Ƴ��
+
+- WRAP2��WRAP3��homepage�Ǥ�����Υڡ����ʥӥ�����������
+
+- common SPAW��myAlbum-P�β����ʳ��Υե�����ˤ��б� (2.17a)
+
+
+
+2005-5-11 2.16
+
+- �ݥåץ��å������˻Ȥ��륳��ȥ�����singlecontent.php�ɲ� (WRAP2̤�б�)
+
+- ��������˥���ƥ�ġ��ڡ�����å׶��̤�HTML�إå������ɲ�
+
+- ���֥�˥塼�����Υڡ����ʥӥ��������ˤ��ä��Х����� (thx kumakichi)
+
+- SPAW��Τ֤Τ֤����1.0.7�١����Τ�Τ˥��åץǡ��� (special thx nobunobu!)
+
+- Firefox �Ǥ� WYSIWYG���Ȥ���褦�˽���
+
+
+
+2005-5-02 2.15
+
+- common���SPAW�˸��Ĥ��ä�XSS�ν��� (thx nobunobu!)
+
+
+
+2005-4-20 2.14
+
+- ���֥�˥塼ñ�̤ǥڡ����ʥӥ�������󤹤�⡼�ɤο���
+
+
+
+2005-4-19 2.13
+
+- SPAW �� heading �ɥ��åץ����󤬸����Ƥ��ʤ��Х�����
+
+- �֤ɤ��Ǥ�XOOPS�����ȡ��Ѥˡ�'xoops_default_comment_title' �򥢥����󤷤�
+
+
+
+2005-4-17 2.12
+
+- modules�쥹�⡼�ɤǥ����ȵ�ǽ���Ȥ��ʤ��ä��Τ�����ʡ֤ɤ������0.03�ϡߡ�
+
+- WRAP2�⡼�ɤǤ⥳���ȵ�ǽ���Ȥ���褦�ˤ��Ƥߤ��ʡ֤ɤ������0.03�ϡߡ�
+
+
+
+2005-4-16 2.11
+
+- �⥸�塼��ְ֡�ư�פǡ������δ����Ը��¤�����å����Ƥ��ʤ��ä��Τ���
+
+- PEAR::Text_Wiki �Υ롼��ڡ����ɲ�
+
+- common��Ʊ���� PEAR::Text_Wiki �� 1.0 stable �˾夲��
+
+- Sunday_Wiki����Ū�˾ä��� (minahito���󡢤����ʤ���)
+
+
+
+2005-4-13 2.10
+
+- ����HTML�إå����ϵ�ǽ���ɲ� (�� �ơ������ <{$xoops_module_header}>)
+
+- ���������ե�����ɤ��ɲ�
+
+- ¾��TinyD�ؤΡְ�ư�סʥ������ݡ��ȡ˵�ǽ���ɲ�
+
+- �Խ����̤ˤ�������̥쥳���ɤȤ�����¸�ץܥ���ο���
+
+- XOOPS�������⥸�塼��ο����б��Ǥ�typo����
+
+- �ۡ���ڡ���������Ƥ��ޤ��Х�����
+
+
+
+2005-3-4 2.07
+
+- tinycontent*.sql�ǥ���ǥå����򤤤������Ĥ���褦�ˤ���
+
+- last_modified ��⥸�塼�륢�åץǡ��Ȼ��˥����å�����褦�ˤ���
+
+- last_modified �������ѹ����٤Ǥ��Ѥ��ʤ��褦�˽�������
+
+- �ǽ������������Խ���󥯤Υ���ץ��ƥ�ץ졼�Ȥ��ɲä���
+
+- updated myblocksadmin 0.27 & mymenu 0.12
+
+- �Ѹ�ե�������� (thx Peter)
+
+
+
+2005-2-22 2.06
+
+- ������httpd��Notice���Ф뤳�Ȥ��б� (thx karedokx)
+
+- myblocksadmin 0.26 & mymenu 0.11 �˥��åץǡ���
+
+
+
+2005-2-19 2.05
+
+- tell a friend�⥸�塼����б�
+
+- modules�쥹�⡼�ɤλŪ����
+
+- blocks admin �ǲ�����󥯤����������ʤäƤ����Τ��� (thx karedokx)
+
+- search�⥸�塼�����ʸɽ���б�
+
+
+
+2005-2-11 2.04
+
+- �ۡ���ڡ������ȡ������Ȥ��Ȥ��ʤ��ä��Τ��� (thx hodaka)
+
+- �ƥ����Ȥ����HTML����ƥ�Ĥˡ�BB code����С���̵��������ɲ�
+
+
+
+2005-2-6 2.03
+
+- �ץ�ӥ塼���֥饦����¸�ȤʤäƤ������Ȥ����������å�����Ϥ��˲���
+
+- �ۡ���ڡ���ID��homepage_id �Ȥ��ƥ�������
+
+- updated myblocksadmin 0.25 & mymenu 0.10
+
+
+
+2005-1-8 2.02
+
+- updated myblocksadmin 0.23
+
+
+
+2004-12-30 2.01
+
+- ����ƥ�ȥ֥��å���[summary][/summary]�ˤƾ�ά���줿���Ρ֤�ä�...���ɲ�
+
+- HP���꤬��ñ�ˤϤ���Ƥ��ޤ��Х��ν��� (thx HODAKA)
+
+- mod_rewrite�⡼�ɤΤ���ˡ����� rewrite �ǥ��쥯�ȥ���Ѱ� (thx uishii)
+
+- myblocksadmin 0.22 & mymenu 0.07 ���줾�칹��
+
+
+
+2004-12-7  2.0
+
+- �����åȥ����ƥ������Ƴ��
+
+- �⥸�塼�륢�åץǡ��Ȼ��Υ֥��å����ץ��������¸ (thx nobunobu)
+
+- DUPLICATABLE V2.1 ��Ƴ��
+
+- PEAR �� spaw �� XOOPS_ROOT_PATH/common/ �ؤ�ʬΥ
+
+- myAlbum-P�Υ��᡼���ޥ͡��������礬spaw�Ǥ�Ȥ���褦�ˤ����ʤ��ޤ���Ԥ���Ƥ⺤��ޤ����������ޤǻ���Ū�ʼ����Ǥ��� (thx nobunobu)
+
+- �����ڤ�ʤ��ʡ�פ��Ф��ʤ��ˤۤɤΥХ�Fix
+
+- �ե���������Ϣ�Υ������ƥ��ۡ�����٤��� (special thx JM2!)
+
+
+
+2004-7-7  1.5mh014
+
+- magic_quotes_gpc On���Υ��˥����������ߥ����� (thx Ryuji)
+
+
+
+2004-6-25  1.5mh013
+
+- render_functions.php����Ť��ɤ߹��ޤ�Ƥ��ޤ��Х��ν��� (thx Christoph)
+
+- PATH_SEPARATOR ̤����Ķ��ؤ��б� (thx toshimitsu)
+
+- sunday_Text_Wiki �򤳤ä������줿 (�����ȥ����Ȥ��Ƥ���ޤ�) (thx minahito!)
+
+
+
+2004-6-18  1.5mh012
+
+- ����ƥ������ɽ���֥��å����ɲä��� �ʤ��Υ֥��å���ʣ����ǽ�Ǥ�����
+
+-- ʣ����ǽ��¸����뤿��ˡ�XOOPS�ƥ�ץ졼�ȥ����ƥ�ϻȤ��ޤ���Ǥ������ƥ�ץ졼�Ȥ����Ѥˤʤꤿ�����ϡ�templates/blocks/tinycontent_content_block.html.dist �Ȥ����ե������tinycontent_content_block.html �ȥ�͡��ष�ơ�������Խ����Ƥ���������
+
+- MyTextSanitizer ���ĥ���� TinyDTextSanitizer��Ȥ��褦�ˤ���
+
+- [siteimg] �������ɲá�
+
+--[url]���Ф���[siteurl]�����������Τǡ������XOOPS_URL�����Ѥ��褦�����Ӥ˸����Ƥ��ޤ���myAlbum-P�Υ��᡼���ޥ͡���������Ǥ��б��Ϥ⤦�������Ԥ���������
+
+- [summary][/summary] �֥��å��������ɲ�
+
+-- [summary]�֥��å��������硢������¦������������ƥ�����Υ֥��å���ɽ������ޤ�
+
+- �ڡ�����åץ⡼��4 ���ɲá�HTML������'src'�����'href'°����Ĵ�٤ơ����Х�󥯤Ȥ��ܤ�����Τ����ä���XOOPS_URL��١����Ȥ������Х�󥯤˽񤭴������ˡ��
+
+- Ϣ³�������ڡ��������Ϥ����̤�Τޤޤ�ɽ������⡼�ɤ��ɲáʤ���������ư���Ԥ�ͭ���Ȥ��������ƥ�����ˤĤ��ƤΤߡ�
+
+- �ڡ����ʥӥ��������ǥ�󥯤����������Х��ν��� (thx HODAKA)
+
+- �ڡ�����åפ�������ƥ�Ĥ�ʸ�������ɤ�����Ǹ����ˤҤä�����ʤ��Х��ν��� (thx sarah)
+
+- �������ǥ����ɲ� (thx Leif Madsen)
+
+
+
+2004-6-2   1.5mh011
+
+- �֥��å��Ǥ�ɽ���оݤ����Ƥ����֥�˥塼�оݤ��Τ����줫�˹ʤ��褦�ˤ���
+
+- �ץ����ѥ�������ͧã�˾Ҳ𥢥�����Τ�����⡢���������ON/OFF��ǽ�Ȥ���
+
+- Ϣ³�������Ƥ�ʬ��ɽ�����뤿�������ڡ����ؤΥʥӥ����������ɲä���
+
+- mymenu �򹹿�
+
+
+
+2004-5-6   1.5mh010
+
+- ���Ū�ˡ�������ե�������������
+
+-- (danish, french, german, nederlands, spanish, tchinese)
+
+
+
+2004-4-27  1.5mh009
+
+- ��������ƥ�ĺ�����ľ��SPAW������Ǥ��ʤ��ä��Τ����ʤ����ݥ��ߥ���
+
+- �Խ�������ǡ��ƥ����ȥ��ꥢ�Υ��ǥ������ѹ��Ǥ���褦�˽���
+
+
+
+2004-4-25  1.5mh008
+
+- xoops_version.php �ε��ҥߥ��ǡ��⥸�塼��������̤ǥ��顼���Ф�Τ��� (thx DonXoop)
+
+
+
+2004-4-23  1.5mh007
+
+- �ڡ�����åפ�mod_rewrite�⡼�ɼ��� (���̻����
+
+- �⥸�塼�����Τ�mod_rewrite�⡼�ɼ��� (SEO�к�?)
+
+- ��ŪHTML�򥢥åפ�������Ǥ⡢mod_rewrite�ˤ�ä�XOOPS�ˤȤꤳ�ޤ��褦�ˤ���  (special thx to minahito!)
+
+- �ڡ�����åפΥ��󥳡��ǥ����Ѵ��ɲáʤ��������Ф��ä���˺��Ƥޤ�����
+
+- PEAR Wiki ����ƥ�ĥ⡼�ɼ��� (special thx to minahito!)
+
+- PHP�����ɥ⡼�ɼ��� ( eval()��ȤäƤ�������ʤΤǡ����ջ���ϥ�������PHP�֥��å���Ʊ���Ǥ���<? ?> �Ǥ�����ʤ��Ȥ���XOOPS�ѿ��ˤ�global������פ�Ȥ�)
+
+- �ץ�ӥ塼����
+
+- SPAW�λ��Ѥ���̤�ON/OFF�Ǥ���褦�ˤ���
+
+- �ƥ����ȥ��ꥢ�Υ����������Ǥ���褦�ˤ���
+
+- �������̤��Խ����̤ǡ������Ȥβġ��ԲĤ���Ʊ���Ƥ����Τ����줷��
+
+- �ۡ���ڡ������꤬�ʤ���硢�ޤ��ϻ��ꤵ�줿�ڡ�����ɽ���ԲĤξ��ˤϡ�ͥ���̤ΰ��ֹ⤤ɽ����ǽ�ڡ����إ�����쥯�Ȥ���褦�ˤ���
+
+- ����������Ͽ����褦�ˤ����ʥơ��֥빽¤���ѹ���ȼ���Τǡ��������̤��鹹�����Ƥ��������������ɤ��Ǥ��������ʤ��Ƥ��������ꤢ��ޤ��󡣡�
+
+
+
+2004-4-13  1.5mh006
+
+- �ڡ�����åפδ�����content�ǥ��쥯�ȥ���ѹ��Ǥ���褦�ˤ���
+
+- �ڡ�����åפ⸡���ˤ�����褦�ˤ���
+
+- �ץ��Ȳ��̤Υƥ�ץ졼�Ȳ�
+
+- �⥸�塼��롼�Ȥˤ��� .htaccess �� .htaccess.dist ���ѹ�����
+
+ �ʽ����С��������ƥ�����뤿��ˡ�.htaccess ��̾���ѹ����Ʋ�������
+
+- HP���꤬���äƤ⡢���֥�˥塼��ɽ�����ǽ�Ȥ���
+
+- ��ͧã�˾Ҳ�פ�ޥ���Х��ȸ���Ǥⲽ���ʤ��褦�ˤ��Ƥߤ�
+
+ ��mb�ؿ���Ȥ�ʤ����Ȥ�����ﲼ�ǡ������¤경���ʤ��褦�ʹ��ס�
+
+- SPAW�μ��Τ��� tinycontent/admin/spaw ��Ȥ��褦�ˤ��� (¾��tinycontent*�ˤĤ��Ƥϡ�spaw��ե�������Ⱦä��Ƥ⹽���ޤ����
+
+- SPAW�ΥХ����ʥ����������β�������ڤ콤������
+
+- SPAW�θ���������ǽ�Ȥ���
+
+- SPAW�˸���jp���ɲ� (thx to author of tinycontent-v1.5jp.patch)
+
+- ����¾�͡��ʥ����ɲ��ɡ��٤��ʻ����ѹ�
+
+
+
+2004-3-10  1.5mh005
+
+- ���֥�˥塼��ɽ�����ȿ�Ǥ��� (thx Tom_G3X)
+
+- myblocksadmin ��0.05�˹�������
+
+
+
+2004-2-29  1.5mh004
+
+- myblocksadmin ��0.04�˹�������
+
+- register_globals On ��¸���ä���ʬ���������ʤ����ʤ�٤���ǫ�ˡ�
+
+- .htaccess ��ǽ餫���֤��褦�ˤ���
+
+
+
+2004-2-26  1.5mh003
+
+- �ƥ�ץ졼�Ȥ���̤˻���Ǥ���褦�ˤ��� (toshimitsu����Ŭ�ڤʥ��ɥХ������꤬�Ȥ��������ޤ����ˤʤ����ƥ�ץ졼�ȹ�¤���������Ѥ�ä��Τǡ���������ƥ�ץ졼�Ȥ�ȤäƤ������Ϻ��ľ��ɬ�פ�����ޤ����ޤ����֥��å��Υƥ�ץ졼�Ȥ��ǧ�������뤿��ˡ��֥��å������ե�����̾���ѹ��������ᡢ�㤦�֥��å��Ȥ���ǧ������Ƥ��ޤ��ޤ������١��֥��å��Υ����������¤�ɽ��̵ͭ�����ꤷ�Ƥ���������������򤪤������Ƥ��ߤޤ���
+
+- SPAW�Υ������ƥ��ۡ����ѥå�����
+
+- ����¾SPAW����ߤν����ʤޤ��ޤ��������Ȥ����Ϥ����Ǥ����ɡġ�
+
+
+
+2004-2-23  1.5mh002
+
+- tc_navigation.php ���Typo��Fix (thx toshimitsu)
+
+- �����ȥ֥��å��ǡ��ؿ���ʣ����ǽ������������Ƥ�����ʬ��eval()��Ȥ������ɤ��ѹ�������(�����������餷���Ǥ���minahito���󡢤��꤬�Ȥ�!)
+
+
+
+2004-2-18  1.5mh001
+
+- �ǽ����
+
+
+
+
+
+
+
+[/xlang:ja]

@@ -1,0 +1,121 @@
+<{$content}>
+
+
+
+<{* A sample displaying Last Modified *}>
+
+<{* Last Modified:<{$last_modified|date_format:"%Y-%m-%d"}> *}>
+
+
+
+<{* A sample displaying Edit link only for system admin *}>
+
+<{* <{if $xoops_isadmin == 1 }><a href="<{$mod_url}>/admin/index.php?op=edit&amp;id=<{$id}>">[Edit]</a><{/if}> *}>
+
+<{* If you turn this on, disable this module's cache *}>
+
+
+
+<{if $is_display_print_icon }>
+
+	<div style="float:right;width:40px;height:40px;"><a href="<{$mod_url}>/print.php?id=<{$id}>"><img src="<{$mod_url}>/images/print.gif" border="0" alt="<{$lang_printerpage}>" /></a></div>
+
+<{/if}>
+
+<{if $is_display_friend_icon }>
+
+	<div style="float:right;width:40px;height:40px;"><a href="<{$mail_link}>" target="_top"><img src="<{$mod_url}>/images/friend.gif" border="0" alt="<{$lang_sendstory}>" /></a></div>
+
+<{/if}>
+
+
+
+<div style="clear:right;" ></div>
+
+
+
+<{if $is_display_pagenav }>
+
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+
+<tr>
+
+	<td width="33%" align="left" valign="top">
+
+	<{if $prev_link }>
+
+		<a href="<{$vmod_url}>/<{$prev_link}>" accesskey="P"><{$lang_prevpage}></a><br />
+
+	<{$prev_title}>
+
+	<{/if}>
+
+	</td>
+
+	<td width="34%" align="center" valign="top">
+
+		<a href="<{$vmod_url}>/<{$top_link}>" accesskey="H"><{$lang_topofcontents}></a>
+
+	</td>
+
+	<td width="33%" align="right" valign="top">
+
+	<{if $next_link }>
+
+		<a href="<{$vmod_url}>/<{$next_link}>" accesskey="N"><{$lang_nextpage}></a><br />
+
+	<{$next_title}>
+
+	<{/if}>
+
+	</td>
+
+</tr>
+
+</table>
+
+<{/if}>
+
+
+
+
+
+<{if $nocomments == 0}>
+
+<br /><br />
+
+<div style="text-align: center; padding: 3px; margin: 3px;">
+
+  <{$commentsnav}>
+
+  <{$lang_notice}>
+
+</div>
+
+
+
+<div style="margin: 3px; padding: 3px;">
+
+<!-- start comments loop -->
+
+<{if $comment_mode == "flat"}>
+
+  <{include file="db:system_comments_flat.html"}>
+
+<{elseif $comment_mode == "thread"}>
+
+  <{include file="db:system_comments_thread.html"}>
+
+<{elseif $comment_mode == "nest"}>
+
+  <{include file="db:system_comments_nest.html"}>
+
+<{/if}>
+
+<!-- end comments loop -->
+
+</div>
+
+<{/if}>
