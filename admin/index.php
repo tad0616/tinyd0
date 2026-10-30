@@ -169,8 +169,6 @@ switch ($op) {
 
         tinyd_cp_header('index.php?op=show');
 
-        $submitlink_with_spaw = '';
-
         // get all instances of TinyD using newblocks table
 
         $rs = $xoopsDB->query("SELECT mid FROM " . $xoopsDB->prefix("newblocks") . " WHERE func_file='tinycontent_navigation.php'");
@@ -187,7 +185,7 @@ switch ($op) {
 
         $rs = $xoopsDB->query("SELECT mid,dirname,name FROM " . $xoopsDB->prefix("modules") . " WHERE $whr_mid ORDER BY weight,mid");
 
-        $dest_tinyd_options = "<option value=''>--</option>\n";
+        $dest_options = array();
 
         while (list($mid, $dirname, $name) = $xoopsDB->fetchRow($rs)) {
 
@@ -201,63 +199,11 @@ switch ($op) {
 
             $name4disp = htmlspecialchars($name, ENT_QUOTES);
 
-            $dest_tinyd_options .= "<option value='$mid'>$name4disp</option>\n";
+            $dest_options[] = array('mid' => $mid, 'name' => $name4disp);
 
         }
 
-        echo "
-
-		<h4 class='mb-3'>" . $xoopsModule->getVar('name') . "</h4>
-
-		<div class='d-flex flex-wrap gap-2 mb-3'>
-
-			<a class='btn btn-primary btn-sm' href='?op=submit'>" . _TC_ADDCONTENT . "</a> $submitlink_with_spaw
-
-		</div>
-
-		<div class='text-end small text-muted mb-2'>
-
-			<b>" . _TC_TH_VISIBLE . "</b>:" . _TC_VISIBLE . " &nbsp;
-
-			<b>" . _TC_TH_SUBMENU . "</b>:" . _TC_SUBMENU . "
-
-		</div>
-
-		<form action='index.php' name='MainForm' method='post'>
-
-		" . $xoopsGTicket->getTicketHtml(__LINE__) . "
-
-		<div class='table-responsive'>
-
-		<table class='table table-striped table-hover table-bordered align-middle'>
-
-		<thead class='table-light'>
-
-		<tr>
-
-			<th class='text-end'>" . _TC_STORYID . "</th>
-
-			<th class='text-center'>" . _TC_HOMEPAGE . "</th>
-
-			<th>" . _TC_LINKNAME . "</th>
-
-			<th class='text-center'>" . _TC_LINKID . "</th>
-
-			<th class='text-center'>" . _TC_TH_VISIBLE . "</th>
-
-			<th class='text-center'>" . _TC_TH_SUBMENU . "</th>
-
-			<th>" . _TC_CONTENTTYPE . "</th>
-
-			<th class='text-center'>最後編輯日期</th>
-
-			<th class='text-end'>" . _TC_ACTION . "</th>
-
-		</tr>
-
-		</thead>
-
-		<tbody>\n";
+        $rows = array();
 
         $result = $xoopsDB->query("SELECT storyid,blockid,title,visible,homepage,        link,submenu,nohtml,UNIX_TIMESTAMP(last_modified),UNIX_TIMESTAMP(created) FROM $mytablename ORDER BY blockid");
 
@@ -268,21 +214,9 @@ switch ($op) {
 
             $title4show = $myts->makeTboxData4Show($title);
 
-            $visible_checked = $visible ? "checked='checked'" : "";
-
-            $submenu_checked = $submenu ? "checked='checked'" : "";
-
-            // db content
-
-            $line_class = 'odd';
-
             $op_for_edit = 'edit';
 
             $opname_for_edit = _TC_EDIT;
-
-            $opname_for_delete = _TC_DELETE;
-
-            $link_to_spaw = '';
 
             if ($link > 0) {
 
@@ -294,160 +228,47 @@ switch ($op) {
 
                 $content_type = "WRAP$link";
 
-                $extended_link = '';
-
             } else {
 
-                switch ($nohtml) {
+                $content_types = array(
+                    '18' => 'Text_Wiki (+bb)',
+                    '16' => 'Text_Wiki',
+                    '10' => 'PHP (+bb)',
+                    '8' => 'PHP',
+                    '3' => 'TEXT (-bb)',
+                    '2' => 'HTML (-bb)',
+                    '1' => 'TEXT (+bb)',
+                    '0' => 'HTML (+bb)',
+                );
 
-                    case '18':
-
-                        $content_type = "Text_Wiki (+bb)";
-
-                        $extended_link = "(<a href='?op=edit&amp;id=$id&amp;useplain=1' style='font-size:xx-small;'>PLAIN</a>)";
-
-                        break;
-
-                    case '16':
-
-                        $content_type = "Text_Wiki";
-
-                        $extended_link = "(<a href='?op=edit&amp;id=$id&amp;useplain=1' style='font-size:xx-small;'>PLAIN</a>)";
-
-                        break;
-
-                    case '10':
-
-                        $content_type = "PHP (+bb)";
-
-                        $extended_link = "(<a href='?op=edit&amp;id=$id&amp;useplain=1' style='font-size:xx-small;'>PLAIN</a>)";
-
-                        break;
-
-                    case '8':
-
-                        $content_type = "PHP";
-
-                        $extended_link = "(<a href='?op=edit&amp;id=$id&amp;useplain=1' style='font-size:xx-small;'>PLAIN</a>)";
-
-                        break;
-
-                    case '3':
-
-                        $content_type = "TEXT (-bb)";
-
-                        $extended_link = '';
-
-                        break;
-
-                    case '2':
-
-                        $content_type = "HTML (-bb)";
-
-                        $extended_link = $link_to_spaw;
-
-                        break;
-
-                    case '1':
-
-                        $content_type = "TEXT (+bb)";
-
-                        $extended_link = '';
-
-                        break;
-
-                    case '0':
-
-                        $content_type = "HTML (+bb)";
-
-                        $extended_link = $link_to_spaw;
-
-                        break;
-
-                    default:
-
-                        $content_type = "unknown";
-
-                        $extended_link = '';
-
-                }
-
-                // editing is always done with CKEditor, so no per-editor links
-                $extended_link = '';
+                $content_type = isset($content_types[(string) $nohtml]) ? $content_types[(string) $nohtml] : 'unknown';
 
             }
 
-            echo "
-
-		<tr>
-
-			<td class='text-end'>$id<input type='hidden' name='id[]' value='$id' /></td>
-
-			<td class='text-center'><input class='form-check-input' type='radio' name='homepage' value='$id' " . ($homepage ? "checked='checked'" : "") . " /></td>
-
-			<td><a href='../index.php?id=$id'>$title4show</a></td>
-
-			<td class='text-center'><input class='form-control form-control-sm text-end' style='width:5rem;display:inline-block;' type='text' name='blockid[$id]' size='3' maxlength='8' value='$weight' /></td>
-
-			<td class='text-center'><input class='form-check-input' type='checkbox' name='visible[$id]' $visible_checked /></td>
-
-			<td class='text-center'><input class='form-check-input' type='checkbox' name='submenu[$id]' $submenu_checked /></td>
-
-			<td><span class='badge text-bg-secondary'>$content_type</span></td>
-
-			<td class='text-center text-nowrap small'>$date4show</td>
-
-			<td class='text-end'><a href='index.php?op=$op_for_edit&amp;id=$id'>$opname_for_edit</a> $extended_link | <a class='text-danger' href='index.php?op=delete&amp;id=$id'>$opname_for_delete</a> | <input class='form-check-input' type='checkbox' name='checked_ids[$id]' /></td>
-
-		</tr>\n";
+            $rows[] = array(
+                'id' => $id,
+                'weight' => $weight,
+                'title' => $title4show,
+                'visible' => $visible,
+                'homepage' => $homepage,
+                'submenu' => $submenu,
+                'content_type' => $content_type,
+                'date' => $date4show,
+                'op_for_edit' => $op_for_edit,
+                'edit_label' => $opname_for_edit,
+            );
 
         }
 
-        echo "
+        $xoopsTpl->assign('module_name', $xoopsModule->getVar('name'));
 
-		</tbody>
+        $xoopsTpl->assign('ticket_html', $xoopsGTicket->getTicketHtml(__LINE__));
 
-		<tfoot>
+        $xoopsTpl->assign('rows', $rows);
 
-		<tr>
+        $xoopsTpl->assign('dest_options', $dest_options);
 
-			<td colspan='9' class='text-end'>
-
-				<div class='d-inline-flex align-items-center gap-2'>
-
-				" . _TC_CHECKED_ITEMS_ARE . "
-
-				<select class='form-select form-select-sm w-auto' name='dest_tinyd' onchange='document.MainForm.moveto.disabled=false;'>
-
-					$dest_tinyd_options
-
-				</select>
-
-				<input class='btn btn-outline-primary btn-sm' type='submit' name='moveto' value='" . _TC_BUTTON_MOVETO . "' disabled='disabled' />
-
-				</div>
-
-			</td>
-
-		</tr>
-
-		</tfoot>
-
-	</table>
-
-	</div>
-
-	<div class='text-center mb-4'>
-
-		<input type='hidden' name='op' value='update' />
-
-		<input class='btn btn-primary' type='submit' name='submit' value='" . _SUBMIT . "' />
-
-		<input class='btn btn-outline-secondary' type='reset' />
-
-	</div>
-
-	</form>\n";
+        echo $xoopsTpl->fetch('file:' . XOOPS_ROOT_PATH . '/modules/' . $mydirname . '/templates/admin/tinycontent_admin_index.tpl');
 
         tinyd_cp_footer();
 
