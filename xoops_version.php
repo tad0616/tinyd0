@@ -56,13 +56,13 @@
 
 // ------------------------------------------------------------------------- //
 
-if (! defined('XOOPS_ROOT_PATH')) {
+if (!defined('XOOPS_ROOT_PATH')) {
     exit;
 }
 global $xoopsDB;
 $mydirname = basename(dirname(__FILE__));
 
-if (! preg_match('/^(\D+)(\d*)$/', $mydirname, $regs)) {
+if (!preg_match('/^(\D+)(\d*)$/', $mydirname, $regs)) {
     echo("invalid dirname: " . htmlspecialchars($mydirname));
 }
 
@@ -72,9 +72,8 @@ include_once XOOPS_ROOT_PATH . "/modules/$mydirname/include/constants.inc.php";
 
 $modversion['name'] = _MI_TINYCONTENT_NAME . $mydirnumber;
 
-// $modversion['version'] = 2.33;
-$modversion['version'] = isset($_SESSION['xoops_version']) && $_SESSION['xoops_version'] >= 20511 ? '3.0.0-Stable' : '3.0';
-$modversion['min_php'] = '7.4.0';
+$modversion['version']   = isset($_SESSION['xoops_version']) && $_SESSION['xoops_version'] >= 20511 ? '4.0.0-Stable' : '4.0';
+$modversion['min_php']   = '8.3.0';
 $modversion['min_xoops'] = '2.5.11';
 
 $modversion['author'] = 'Tobias Liegl (AKA CHAPI)';
@@ -159,7 +158,7 @@ if (is_object($module)) {
 
         $modversion['sub'][$i]['name'] = $myts->makeTboxData4Show($title);
 
-        if (! empty($config['tc_force_mod_rewrite']) || $link == TC_WRAPTYPE_USEREWRITE) {
+        if (!empty($config['tc_force_mod_rewrite']) || $link == TC_WRAPTYPE_USEREWRITE) {
 
             if (empty($config['tc_modulesless_dir'])) {
 
@@ -447,7 +446,7 @@ $modversion['hasNotification'] = 0;
 
 // onUpdate
 
-if (! empty($_POST['fct']) && ! empty($_POST['op']) && $_POST['fct'] == 'modulesadmin' && $_POST['op'] == 'update_ok' && $_POST['dirname'] == $modversion['dirname']) {
+if (!empty($_POST['fct']) && !empty($_POST['op']) && $_POST['fct'] == 'modulesadmin' && $_POST['op'] == 'update_ok' && $_POST['dirname'] == $modversion['dirname']) {
 
     include dirname(__FILE__) . "/include/onupdate.inc.php";
 
