@@ -28,15 +28,20 @@
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
 
-$adminmenu[1]['title'] = _TC_MD_ADMENU3;
-$adminmenu[1]['link']  = "admin/index.php?op=show";
-$adminmenu[2]['title'] = _TC_MD_ADMENU1;
-$adminmenu[2]['link']  = "admin/index.php?op=submit";
-$adminmenu[3]['title'] = _TC_MD_ADMENU2;
-$adminmenu[3]['link']  = "admin/index.php?op=nlink";
-/*$adminmenu[4]['title'] = _TC_MD_ADMENU_MYBLOCKSADMIN;
-$adminmenu[4]['link']  = "admin/myblocksadmin.php";
-$adminmenu[] = array(
-	'title' => _TC_MD_ADMENU_MYTPLSADMIN ,
-	'link' => "admin/mytplsadmin.php" ) ;*/
-?>
+$adminmenu = [
+    [
+        'title' => _TC_MD_ADMENU3,
+        'link'  => 'admin/index.php?op=show',
+        'icon'  => '../../Frameworks/moduleclasses/icons/32/content.png',
+    ],
+    [
+        'title' => _TC_MD_ADMENU1,
+        'link'  => 'admin/index.php?op=submit',
+        'icon'  => '../../Frameworks/moduleclasses/icons/32/add.png',
+    ],
+    [
+        'title' => _TC_MD_ADMENU2,
+        'link'  => 'admin/index.php?op=nlink',
+        'icon'  => '../../Frameworks/moduleclasses/icons/32/addlink.png',
+    ],
+];

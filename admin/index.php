@@ -1,6 +1,7 @@
 <?php
 
 use XoopsModules\Tadtools\CkEditor;
+use XoopsModules\Tadtools\Utility;
 
 $mydirname = basename(dirname(dirname(__FILE__)));
 
@@ -22,30 +23,7 @@ include_once '../class/tinyd.textsanitizer.php';
 
 include_once '../include/gtickets.php';
 
-// admin header with Bootstrap 5 (also restyles XoopsThemeForm tables)
-function tinyd_cp_header()
-{
-    xoops_cp_header();
-
-    echo "<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' />
-<style>
-	.tinyd-admin table.outer { width: 100%; margin-bottom: 1rem; border-collapse: collapse; border: 1px solid #dee2e6; }
-	.tinyd-admin table.outer th { background: #f8f9fa; padding: .5rem .75rem; border: 1px solid #dee2e6; }
-	.tinyd-admin table.outer td { padding: .5rem .75rem; border: 1px solid #dee2e6; vertical-align: middle; }
-	.tinyd-admin table.outer td.head { background: #f8f9fa; font-weight: 600; width: 25%; }
-	.tinyd-admin input[type=text], .tinyd-admin input[type=file], .tinyd-admin input[type=password], .tinyd-admin select, .tinyd-admin textarea { display: inline-block; max-width: 100%; padding: .375rem .75rem; border: 1px solid #ced4da; border-radius: .375rem; }
-	.tinyd-admin input[type=submit], .tinyd-admin input[type=button], .tinyd-admin input[type=reset], .tinyd-admin button { display: inline-block; padding: .375rem .75rem; color: #fff; background: #0d6efd; border: 1px solid #0d6efd; border-radius: .375rem; cursor: pointer; }
-	.tinyd-admin input[type=reset] { color: #212529; background: #e9ecef; border-color: #ced4da; }
-	.tinyd-admin input[type=submit]:disabled { opacity: .65; cursor: not-allowed; }
-</style>
-<div class='tinyd-admin container-fluid'>\n";
-}
-
-function tinyd_cp_footer()
-{
-    echo "</div>\n";
-    xoops_cp_footer();
-}
+require_once __DIR__ . '/header.php';
 
 // branch for altsys
 
@@ -192,13 +170,10 @@ switch ($op) {
 // ------------------------------------------------------------------------- //
 
     default:
-        $mymenu_fake_uri = $_SERVER['REQUEST_URI'] . '?op=show';
 
     case "show":
 
-        tinyd_cp_header();
-
-        include dirname(__FILE__) . '/mymenu.php';
+        tinyd_cp_header('index.php?op=show');
 
         $submitlink_with_spaw = '';
 
@@ -553,9 +528,7 @@ switch ($op) {
 
     case "edit":
 
-        tinyd_cp_header();
-
-        include dirname(__FILE__) . '/mymenu.php';
+        tinyd_cp_header('index.php?op=submit');
 
         // initialization
 
@@ -693,9 +666,9 @@ switch ($op) {
 
         // content body (CKEditor from tadtools)
 
-        mk_dir(XOOPS_ROOT_PATH . "/uploads/$mydirname/");
-        mk_dir(XOOPS_ROOT_PATH . "/uploads/$mydirname/image");
-        mk_dir(XOOPS_ROOT_PATH . "/uploads/$mydirname/file");
+        Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/$mydirname/");
+        Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/$mydirname/image");
+        Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/$mydirname/file");
         $ck = new CkEditor($mydirname, "message", $message);
         $ck->setHeight(500);
         $editor = $ck->render();
@@ -906,9 +879,7 @@ switch ($op) {
 
     case "elink":
 
-        tinyd_cp_header();
-
-        include dirname(__FILE__) . '/mymenu.php';
+        tinyd_cp_header('index.php?op=nlink');
 
         echo "<h4>" . $xoopsModule->getVar('name') . "</h4>";
 
@@ -1316,8 +1287,6 @@ switch ($op) {
 
         tinyd_cp_header();
 
-        include dirname(__FILE__) . '/mymenu.php';
-
         // security fix (thx JM2)
 
         $_POST['address'] = str_replace('..', '', $_POST['address']);
@@ -1365,8 +1334,6 @@ switch ($op) {
     case "delete":
 
         tinyd_cp_header();
-
-        include dirname(__FILE__) . '/mymenu.php';
 
         xoops_confirm(array('id' => intval($_GET['id']), 'op' => 'deleteit') + $xoopsGTicket->getTicketArray(__LINE__), 'index.php', _TC_RUSUREDEL, _YES);
 

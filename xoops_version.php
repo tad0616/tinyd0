@@ -107,6 +107,14 @@ $modversion['tables'][0] = "tinycontent{$mydirnumber}";
 
 // Admin things
 
+$modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
+
+$modversion['icons16'] = '../../Frameworks/moduleclasses/icons/16';
+
+$modversion['icons32'] = '../../Frameworks/moduleclasses/icons/32';
+
+$modversion['system_menu'] = 1;
+
 $modversion['hasAdmin'] = 1;
 
 $modversion['adminindex'] = "admin/index.php";
