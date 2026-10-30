@@ -51,7 +51,8 @@ $tpl->assign('lang_comesfrom', sprintf(_TC_THISCOMESFROM, $xoopsConfig['sitename
 $tpl->assign('lang_contentfrom', _TC_URLFORSTORY);
 
 $myts =& MyTextSanitizer::getInstance() ;
-$tpl->assign( 'title' , $myts->makeTboxData4Show( $title ) ) ;
+$tpl->assign( 'title' , $myts->makeTboxData4Show( $title ) ) ;
+$tpl->assign( 'tinyd_title' , $myts->makeTboxData4Show( $title ) ) ;
 
 $tpl->assign( 'modulename' , $xoopsModule->getVar('name') ) ;
 

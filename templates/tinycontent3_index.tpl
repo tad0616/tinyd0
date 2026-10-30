@@ -3,16 +3,7 @@
 
 <article class="tinycontent-article">
 
-<{if $is_display_print_icon || $is_display_friend_icon }>
-	<div class="d-flex justify-content-end gap-2 mb-3 d-print-none">
-	<{if $is_display_print_icon }>
-		<a class="btn btn-outline-secondary btn-sm" href="<{$mod_url}>/print.php?id=<{$id}>" target="_blank" rel="noopener" title="<{$lang_printerpage}>"><img src="<{$mod_url}>/images/print.gif" height="20" alt="<{$lang_printerpage}>" /></a>
-	<{/if}>
-	<{if $is_display_friend_icon }>
-		<a class="btn btn-outline-secondary btn-sm" href="<{$mail_link}>" target="_top" title="<{$lang_sendstory}>"><img src="<{$mod_url}>/images/friend.gif" height="20" alt="<{$lang_sendstory}>" /></a>
-	<{/if}>
-	</div>
-<{/if}>
+	<h1 class="h3 mb-3 tinycontent-title"><{$tinyd_title}></h1>
 
 	<div class="tinycontent-body clearfix">
 		<{$content}>

@@ -153,7 +153,7 @@ $content = str_replace( '{X_SITEURL}' , XOOPS_URL , $content ) ;
 // assignment to Smarty
 $xoopsTpl->assign( 'mod_url' , $mod_url ) ;
 $xoopsTpl->assign( 'vmod_url' , $vmod_url ) ;
-$xoopsTpl->assign( 'title' , $myts->makeTboxData4Show( $title ) ) ;
+$xoopsTpl->assign( 'tinyd_title' , $myts->makeTboxData4Show( $title ) ) ;
 $xoopsTpl->assign( 'xoops_pagetitle' , $myts->makeTboxData4Show( $title ) ) ;
 $xoopsTpl->assign( 'xoops_module_header' , $xoopsModuleConfig['tc_common_htmlheader'] . "\n" . $html_header . "\n" . $xoopsTpl->get_template_vars( "xoops_module_header" ) ) ;
 $xoopsTpl->assign( 'content' , $content ) ;
