@@ -249,6 +249,8 @@ switch ($op) {
 
 			<th>" . _TC_CONTENTTYPE . "</th>
 
+			<th class='text-center'>最後編輯日期</th>
+
 			<th class='text-end'>" . _TC_ACTION . "</th>
 
 		</tr>
@@ -257,9 +259,12 @@ switch ($op) {
 
 		<tbody>\n";
 
-        $result = $xoopsDB->query("SELECT storyid,blockid,title,visible,homepage,        link,submenu,nohtml,UNIX_TIMESTAMP(last_modified) FROM $mytablename ORDER BY blockid");
+        $result = $xoopsDB->query("SELECT storyid,blockid,title,visible,homepage,        link,submenu,nohtml,UNIX_TIMESTAMP(last_modified),UNIX_TIMESTAMP(created) FROM $mytablename ORDER BY blockid");
 
-                while (list($id, $weight, $title, $visible, $homepage, $link, $submenu, $nohtml, $last_modified) = $xoopsDB->fetchRow($result)) {
+                while (list($id, $weight, $title, $visible, $homepage, $link, $submenu, $nohtml, $last_modified, $created_ts) = $xoopsDB->fetchRow($result)) {
+
+                    $date_ts = ($last_modified > 86400) ? $last_modified : (($created_ts > 86400) ? $created_ts : 0);
+                    $date4show = $date_ts ? date('Y-m-d H:i', $date_ts) : '-';
 
             $title4show = $myts->makeTboxData4Show($title);
 
@@ -390,7 +395,9 @@ switch ($op) {
 
 			<td><span class='badge text-bg-secondary'>$content_type</span></td>
 
-			<td class='text-end'><a href='index.php?op=$op_for_edit&amp;id=$id'>$opname_for_edit</a> $extended_link | <a class='text-danger' href='index.php?op=delete&amp;id=$id'>$opname_for_delete</a> | <input class='form-check-input' type='checkbox' name='checked_ids[$id]' /><br /><small class='text-muted'>" . formatTimestamp($last_modified, "m") . "</small></td>
+			<td class='text-center text-nowrap small'>$date4show</td>
+
+			<td class='text-end'><a href='index.php?op=$op_for_edit&amp;id=$id'>$opname_for_edit</a> $extended_link | <a class='text-danger' href='index.php?op=delete&amp;id=$id'>$opname_for_delete</a> | <input class='form-check-input' type='checkbox' name='checked_ids[$id]' /></td>
 
 		</tr>\n";
 
@@ -404,7 +411,7 @@ switch ($op) {
 
 		<tr>
 
-			<td colspan='8' class='text-end'>
+			<td colspan='9' class='text-end'>
 
 				<div class='d-inline-flex align-items-center gap-2'>
 

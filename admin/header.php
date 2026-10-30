@@ -15,6 +15,7 @@ function tinyd_cp_header($menu = '')
     $xoTheme->addStylesheet('https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css');
 
     echo "<style>
+	.CPbigTitle { display: none; }
 	.tinyd-admin table.outer { width: 100%; margin-bottom: 1rem; border-collapse: collapse; border: 1px solid #dee2e6; }
 	.tinyd-admin table.outer th { background: #f8f9fa; padding: .5rem .75rem; border: 1px solid #dee2e6; }
 	.tinyd-admin table.outer td { padding: .5rem .75rem; border: 1px solid #dee2e6; vertical-align: middle; }
