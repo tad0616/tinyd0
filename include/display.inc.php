@@ -34,7 +34,7 @@
 if( ! defined( 'XOOPS_ROOT_PATH' ) ) exit ;
 
 // XOOPS Header
-$xoopsOption['template_main'] = "tinycontent{$mydirnumber}_index.html" ;
+$xoopsOption['template_main'] = "tinycontent{$mydirnumber}_index.tpl" ;
 include( XOOPS_ROOT_PATH . '/header.php' ) ;
 
 // $myts

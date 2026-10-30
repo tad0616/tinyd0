@@ -82,7 +82,7 @@ $content = str_replace( '{X_SITEURL}' , XOOPS_URL , $content ) ;
 
 $tpl->assign( 'content' , $content ) ;
 
-$main_template = empty( $tinyd_singlecontent ) ? "db:tinycontent{$mydirnumber}_print.html" : "db:tinycontent{$mydirnumber}_index.html" ;
+$main_template = empty( $tinyd_singlecontent ) ? "db:tinycontent{$mydirnumber}_print.tpl" : "db:tinycontent{$mydirnumber}_index.tpl" ;
 
 $tpl->display( $main_template ) ;
 

@@ -446,36 +446,6 @@ switch ($op) {
 
         $tarea_width = empty($xoopsModuleConfig['tc_tarea_width']) ? 35 : intval($xoopsModuleConfig['tc_tarea_width']);
 
-        echo "
-
-		<h4 class='mb-3'>" . $xoopsModule->getVar('name') . "</h4>\n";
-
-        $form_target = 'index.php';
-
-        // beggining of xoopsForm
-
-        $form = new XoopsThemeForm($form_title, "MainForm", $form_target);
-
-        // title
-
-        $form->addElement(new XoopsFormText(_TC_LINKNAME, "title", 50, 255, htmlspecialchars($title, ENT_QUOTES)));
-
-        // html header
-
-        if ($header_tarea_height > 0) {
-
-            $h_area = new XoopsFormTextArea(_TC_HTML_HEADER, 'html_header', htmlspecialchars($html_header, ENT_QUOTES), $header_tarea_height, $tarea_width);
-
-            $h_area->setExtra("style='width: {$tarea_width}em;'");
-
-            $form->addElement($h_area);
-
-        } else {
-
-            $form->addElement(new XoopsFormHidden('html_header', htmlspecialchars($html_header, ENT_QUOTES)));
-
-        }
-
         // content body (CKEditor from tadtools)
 
         Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/$mydirname/");
@@ -485,95 +455,25 @@ switch ($op) {
         $ck->setHeight(500);
         $editor = $ck->render();
 
-        $form->addElement(new XoopsFormLabel(_TC_CONTENT, $editor));
+        $xoopsTpl->assign('module_name', $xoopsModule->getVar('name'));
+        $xoopsTpl->assign('form_title', $form_title);
+        $xoopsTpl->assign('is_edit', $op == 'edit');
+        $xoopsTpl->assign('next_op', $next_op);
+        $xoopsTpl->assign('storyid', intval($storyid));
+        $xoopsTpl->assign('title', $title);
+        $xoopsTpl->assign('html_header', $html_header);
+        $xoopsTpl->assign('show_html_header', $header_tarea_height > 0);
+        $xoopsTpl->assign('header_rows', max(1, $header_tarea_height));
+        $xoopsTpl->assign('editor', $editor);
+        $xoopsTpl->assign('nosmiley', $nosmiley);
+        $xoopsTpl->assign('visible', $visible);
+        $xoopsTpl->assign('submenu', $submenu);
+        $xoopsTpl->assign('last_modified', $last_modified);
+        $xoopsTpl->assign('last_modified_text', $last_modified ? formatTimestamp($last_modified) : '-');
+        $xoopsTpl->assign('created_text', $created ? formatTimestamp($created) : '-');
+        $xoopsTpl->assign('ticket_html', $xoopsGTicket->getTicketHtml(__LINE__));
 
-        // options
-
-        $option_tray = new XoopsFormElementTray(_OPTIONS, '<br />');
-
-        // smiley
-
-        $smiley_checkbox = new XoopsFormCheckBox('', 'nosmiley', $nosmiley);
-
-        $smiley_checkbox->addOption(1, _DISABLESMILEY);
-
-        $option_tray->addElement($smiley_checkbox);
-
-        // nobreaks (CKEditor content is HTML)
-
-        $form->addElement(new XoopsFormHidden('nobreaks', 1));
-
-        // visible
-
-        $visible_checkbox = new XoopsFormCheckBox('', 'visible', $visible);
-
-        $visible_checkbox->addOption(1, _TC_VISIBLE);
-
-        $option_tray->addElement($visible_checkbox);
-
-        // submenu
-
-        $submenu_checkbox = new XoopsFormCheckBox('', 'submenu', $submenu);
-
-        $submenu_checkbox->addOption(1, _TC_SUBMENU);
-
-        $option_tray->addElement($submenu_checkbox);
-
-        $form->addElement($option_tray);
-
-        // content type is always HTML (CKEditor)
-
-        $form->addElement(new XoopsFormHidden('nohtml', 0));
-
-        // last_modified
-
-        $lm_tray = new XoopsFormElementTray(_TC_LASTMODIFIED, '&nbsp;');
-
-        $lm_tray->addElement(new XoopsFormLabel('', formatTimestamp($last_modified)));
-
-        $lm_checkbox = new XoopsFormCheckBox('', 'dont_update_last_modified', 0);
-
-        $lm_checkbox->addOption(1, _TC_DONTUPDATELASTMODIFIED);
-
-        $lm_tray->addElement($lm_checkbox);
-
-        $form->addElement($lm_tray);
-
-        // created
-
-        $form->addElement(new XoopsFormLabel(_TC_CREATED, formatTimestamp($created)));
-
-        // buttons
-
-        $submit_tray = new XoopsFormElementTray('', ' &nbsp; &nbsp; ');
-
-        $submit_tray->addElement(new XoopsFormButton("", "preview", _PREVIEW, "submit"));
-
-        $submit_tray->addElement(new XoopsFormButton("", "submit", _SUBMIT, "submit"));
-
-        if ($op == 'edit') {
-            $submit_tray->addElement(new XoopsFormButton("", "saveas", _TC_SAVEAS, "submit"));
-        }
-
-        $submit_tray->addElement(new XoopsFormButton("", "cancel", _CANCEL, "submit"));
-
-        $form->addElement($submit_tray);
-
-        // hiddens
-
-        $form->addElement(new XoopsFormHidden('op', $next_op));
-
-        $form->addElement(new XoopsFormHidden('id', $storyid));
-
-        $form->addElement(new XoopsFormHidden('last_modified', $last_modified));
-
-        // Ticket
-
-        $GLOBALS['xoopsGTicket']->addTicketXoopsFormElement($form, __LINE__);
-
-        // end of xoopsForm
-
-        $form->display();
+        echo $xoopsTpl->fetch('file:' . XOOPS_ROOT_PATH . '/modules/' . $mydirname . '/templates/admin/tinycontent_admin_form.tpl');
 
         tinyd_cp_footer();
 

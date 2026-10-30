@@ -191,11 +191,11 @@ if (is_object($module)) {
 
 // Templates
 
-$modversion['templates'][1]['file'] = "tinycontent{$mydirnumber}_index.html";
+$modversion['templates'][1]['file'] = "tinycontent{$mydirnumber}_index.tpl";
 
 $modversion['templates'][1]['description'] = "Layout for Monitor";
 
-$modversion['templates'][2]['file'] = "tinycontent{$mydirnumber}_print.html";
+$modversion['templates'][2]['file'] = "tinycontent{$mydirnumber}_print.tpl";
 
 $modversion['templates'][2]['description'] = "Layout for Printer";
 
@@ -209,7 +209,7 @@ $modversion['blocks'][1]['description'] = _MI_TC_BDESC1;
 
 $modversion['blocks'][1]['show_func'] = "tinycontent{$mydirnumber}_block_nav";
 
-$modversion['blocks'][1]['template'] = "tinycontent{$mydirnumber}_nav_block.html";
+$modversion['blocks'][1]['template'] = "tinycontent{$mydirnumber}_nav_block.tpl";
 
 $modversion['blocks'][1]['can_clone'] = false;
 

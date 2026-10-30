@@ -93,7 +93,7 @@ function b_tinycontent_content_show( $options )
 	}
 
 	// if template file exists, parse it.
-	if( file_exists( "$mymodpath/templates/blocks/tinycontent_content_block.html" ) ) {
+	if( file_exists( "$mymodpath/templates/blocks/tinycontent_content_block.tpl" ) ) {
 		$myts =& TinyDTextSanitizer::getInstance() ;
 		$tpl = new XoopsTpl();
 		$tpl->assign( array(
@@ -104,7 +104,7 @@ function b_tinycontent_content_show( $options )
 			'title' => $myts->makeTboxData4Show( $title ) ,
 			'content' => $content
 		) ) ;
-		$block['content'] = $tpl->fetch( "file:$mymodpath/templates/blocks/tinycontent_content_block.html" ) ;
+		$block['content'] = $tpl->fetch( "file:$mymodpath/templates/blocks/tinycontent_content_block.tpl" ) ;
 
 	} else {
 
