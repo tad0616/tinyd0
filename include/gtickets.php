@@ -72,7 +72,7 @@ class XoopsGTicket {
 		// create a token
 		list( $usec , $sec ) = explode( " " , microtime() ) ;
 		$appendix_salt = empty( $_SERVER['PATH'] ) ? XOOPS_DB_NAME : $_SERVER['PATH'] ;
-		$token = crypt( $salt . $usec . $appendix_salt . $sec ) ;
+		$token = md5( $salt . $usec . $appendix_salt . $sec . ( function_exists( 'random_bytes' ) ? bin2hex( random_bytes( 16 ) ) : uniqid( mt_rand() , true ) ) ) ;
 		$this->_latest_token = $token ;
 
 		if( empty( $_SESSION['XOOPS_G_STUBS'] ) ) $_SESSION['XOOPS_G_STUBS'] = array() ;

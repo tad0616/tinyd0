@@ -8,13 +8,7 @@ if( ! class_exists( 'TinyDTextSanitizer' ) ) {
 
     var $nbsp = 0 ;
 
-    function TinyDTextSanitizer()
-    {
-      //parent::MyTextSanitizer() ;
-    }
-
-
-    static function &getInstance()
+    public static function getInstance()
     {
       static $instance;
       if (!isset($instance)) {
@@ -25,14 +19,15 @@ if( ! class_exists( 'TinyDTextSanitizer' ) ) {
 
 
 
-    function displayTarea( $text, $html = 0, $smiley = 1, $xcode = 1, $image = 1, $br = 1 , $nbsp = 0 )
+    public function &displayTarea( $text, $html = 0, $smiley = 1, $xcode = 1, $image = 1, $br = 1 , $nbsp = 0 )
     {
 
       $text = preg_replace( "/javascript:/si" , "jjaavvaassccrriipptt::" , $text ) ;
       $this->nbsp = $nbsp ;
       $text = parent::displayTarea( $text , $html , $smiley , $xcode , $image , $br ) ;
       $text = preg_replace( "/jjaavvaassccrriipptt::/" , "javascript:" , $text ) ;
-      return $this->tinyDCodeDecode( $text , $nbsp ) ;
+      $text = $this->tinyDCodeDecode( $text , $nbsp ) ;
+      return $text ;
     }
 
 
@@ -62,7 +57,7 @@ if( ! class_exists( 'TinyDTextSanitizer' ) ) {
 
 
 
-    function &nl2Br( $text )
+    public function nl2Br( $text )
 
     {
 
@@ -87,11 +82,11 @@ if( ! class_exists( 'TinyDTextSanitizer' ) ) {
 
 
 
-    function htmlSpecialChars($text)
+    public function htmlSpecialChars($text, $quote_style = null, $charset = null, $double_encode = true)
 
     {
 
-      return htmlspecialchars($text, ENT_QUOTES);
+      return htmlspecialchars((string) $text, $quote_style === null ? ENT_QUOTES : $quote_style, $charset ?: (defined('_CHARSET') ? _CHARSET : 'UTF-8'), $double_encode);
 
       //return preg_replace("/&amp;/i", '&', htmlspecialchars($text, ENT_QUOTES));
 

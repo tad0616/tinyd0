@@ -34,8 +34,6 @@ define('_TC_FMT_WRAPCHANGESRCHREF','【WRAP4】重寫HTML網頁內容的連結�
 // Appended by Xoops Language Checker -GIJOE- in 2004-05-06 09:53:54
 define('_TC_SPAWLANG','zh-tw');
 define('_TC_TH_VISIBLE','顯示');
-define('_TC_ENABLECOM','可用評論功能');
-define('_TC_TH_ENABLECOM','評論');
 define('_TC_TH_SUBMENU','子選單');
 define('_TC_DISP_YES','顯示');
 define('_TC_DISP_NO','不顯示');
@@ -94,7 +92,6 @@ define("_TC_ACTION","確定");
 define("_TC_EDIT","編輯");
 define("_TC_DELETE","刪除");
 
-define('_TC_DISABLECOM','不使用評論');
 define('_TC_DBUPDATED','資料庫更新成功！');
 define('_TC_ERRORINSERT','資料庫更新失敗！');
 define('_TC_RUSUREDEL','確定刪除這項內容？');

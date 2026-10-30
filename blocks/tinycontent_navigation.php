@@ -67,7 +67,7 @@ function tinyd_block_nav_base( $mydirname , $mydirnumber )
 	}
 
 	$myts =& MyTextSanitizer::getInstance() ;
-	$db =& Database::getInstance() ;
+	$db = XoopsDatabaseFactory::getDatabaseConnection() ;
 
 	$whr_submenu = $navblock_target == 2 ? "submenu=1" : "1" ;
 

@@ -4,7 +4,6 @@ if( defined( 'FOR_XOOPS_LANG_CHECKER' ) || ! defined( 'TINYCONTENT_MB_LOADED' ) 
 
 define( 'TINYCONTENT_MB_LOADED' , 1 ) ;
 
-define( "_TC_FMT_DEFAULT_COMMENT_TITLE" , "Re: %s" ) ;
 
 define('_TC_FILENOTFOUND','File not found! Please check the URL!');
 define("_TC_PRINTERFRIENDLY","Printer Friendly Page");

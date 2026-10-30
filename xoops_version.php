@@ -223,14 +223,6 @@ $modversion['blocks'][2]['can_clone'] = true;
 
 $modversion['blocks'][2]['options'] = "{$mydirname}|1";
 
-// Comments
-
-$modversion['hasComments'] = 1;
-
-$modversion['comments']['itemName'] = 'id';
-
-$modversion['comments']['pageName'] = 'index.php';
-
 // Configs
 
 $modversion['config'][1] = [

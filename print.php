@@ -53,7 +53,7 @@ if( $id <= 0 )  {
 }
 
 // main query
-$result = $xoopsDB->query( "SELECT storyid,title,text,visible,nohtml,nosmiley,nobreaks,nocomments,link,address,UNIX_TIMESTAMP(last_modified) AS last_modified,html_header FROM $mytablename WHERE storyid='$id' AND visible" ) ;
+$result = $xoopsDB->query( "SELECT storyid,title,text,visible,nohtml,nosmiley,nobreaks,link,address,UNIX_TIMESTAMP(last_modified) AS last_modified,html_header FROM $mytablename WHERE storyid='$id' AND visible" ) ;
 if( ( $result_array = $xoopsDB->fetchArray( $result ) ) == false ) {
 	redirect_header( XOOPS_URL.'/' , 2 , _TC_FILENOTFOUND ) ;
 	exit ;

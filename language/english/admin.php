@@ -31,8 +31,6 @@ define("_TC_LINKNAME","Link Title");
 define("_TC_STORYID","ID");
 define("_TC_VISIBLE","Visible");
 define("_TC_TH_VISIBLE","Vis");
-define("_TC_ENABLECOM","Comments enabled");
-define("_TC_TH_ENABLECOM","Com");
 define("_TC_HTML_HEADER","HTML header");
 define("_TC_CONTENT","Content");
 define("_TC_YES","Yes");
@@ -79,10 +77,9 @@ define("_TC_FMT_WRAPROOTPAGE","Same as wrapped page.<br /> (%s) <br />use mod_re
 define("_TC_FMT_WRAPBYREWRITE","use mod_rewrite (experimental)<br /> upload HTMLs and others into %s<br />Do not forget turning mod_rewrite on<br />");
 define("_TC_FMT_WRAPCHANGESRCHREF","rewrite attributes of html (experimental)<br /> this option rewrites relative links to absolute links.<br />This probably mis-recognizes sentences looks like HTML source<br />");
 
-define("_TC_DISABLECOM","Disable comments");
 define("_TC_DBUPDATED","Database Updated Successfully!");
 define("_TC_ERRORINSERT","Error while updating database!");
-define("_TC_RUSUREDEL","Are you sure you want to delete this content? <br />All comments linked to the content will be removed");
+define("_TC_RUSUREDEL","Are you sure you want to delete this content? ");
 define("_TC_RUSUREDELF","Are you sure you want to delete this file?");
 define("_TC_UPLOADED","File Uploaded Successfully!");
 define("_TC_FDELETED","File Deleted Successfully!");

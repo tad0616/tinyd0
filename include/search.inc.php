@@ -64,7 +64,7 @@ function tinyd_search_base( $mydirname , $mydirnumber , $keywords , $andor , $li
 	$config =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 	$myts =& TinyDTextSanitizer::getInstance() ;
-	$db =& Database::getInstance() ;
+	$db = XoopsDatabaseFactory::getDatabaseConnection() ;
 
 	// XOOPS Search module
 	$showcontext = empty( $_GET['showcontext'] ) ? 0 : 1 ;

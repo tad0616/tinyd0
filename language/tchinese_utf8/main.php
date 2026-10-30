@@ -5,7 +5,6 @@ if( defined( 'FOR_XOOPS_LANG_CHECKER' ) || ! defined( 'TINYCONTENT_MB_LOADED' ) 
 
 
 // Appended by Xoops Language Checker -GIJOE- in 2005-04-19 18:26:42
-define('_TC_FMT_DEFAULT_COMMENT_TITLE','Re: %s');
 
 // Appended by Xoops Language Checker -GIJOE- in 2004-06-02 17:58:48
 define('_TC_NEXTPAGE','往下');

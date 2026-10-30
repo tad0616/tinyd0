@@ -156,7 +156,7 @@ $myts = &TinyDTextSanitizer::getInstance();
 
 // ------------------------------------------------------------------------- //
 
-$xoopsDB = &Database::getInstance();
+$xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
 
 switch ($op) {
 
@@ -231,9 +231,7 @@ switch ($op) {
 
 			<b>" . _TC_TH_VISIBLE . "</b>:" . _TC_VISIBLE . " &nbsp;
 
-			<b>" . _TC_TH_SUBMENU . "</b>:" . _TC_SUBMENU . " &nbsp;
-
-			<b>" . _TC_TH_ENABLECOM . "</b>:" . _TC_ENABLECOM . "
+			<b>" . _TC_TH_SUBMENU . "</b>:" . _TC_SUBMENU . "
 
 		</div>
 
@@ -257,25 +255,21 @@ switch ($op) {
 
 			<th>" . _TC_TH_SUBMENU . "</th>
 
-			<th>" . _TC_TH_ENABLECOM . "</th>
-
 			<th>" . _TC_CONTENTTYPE . "</th>
 
 			<th style='text-align:right;'>" . _TC_ACTION . "</th>
 
 		</tr>\n";
 
-        $result = $xoopsDB->query("SELECT storyid,blockid,title,visible,homepage,link,submenu,nocomments,nohtml,UNIX_TIMESTAMP(last_modified) FROM $mytablename ORDER BY blockid");
+        $result = $xoopsDB->query("SELECT storyid,blockid,title,visible,homepage,        link,submenu,nohtml,UNIX_TIMESTAMP(last_modified) FROM $mytablename ORDER BY blockid");
 
-        while (list($id, $weight, $title, $visible, $homepage, $link, $submenu, $nocomments, $nohtml, $last_modified) = $xoopsDB->fetchRow($result)) {
+                while (list($id, $weight, $title, $visible, $homepage, $link, $submenu, $nohtml, $last_modified) = $xoopsDB->fetchRow($result)) {
 
             $title4show = $myts->makeTboxData4Show($title);
 
             $visible_checked = $visible ? "checked='checked'" : "";
 
             $submenu_checked = $submenu ? "checked='checked'" : "";
-
-            $comments_checked = $nocomments ? "" : "checked='checked'";
 
             if ($link > 0) {
 
@@ -404,8 +398,6 @@ switch ($op) {
 			<td align='center'><input type='checkbox' name='visible[$id]' $visible_checked /></td>
 
 			<td align='center'><input type='checkbox' name='submenu[$id]' $submenu_checked /></td>
-
-			<td align='center'><input type='checkbox' name='comments[$id]' $comments_checked /></td>
 
 			<td>$content_type</td>
 
@@ -549,11 +541,9 @@ switch ($op) {
 
             $visible = empty($_POST['visible'][$storyid]) ? 0 : 1;
 
-            $nocomments = empty($_POST['comments'][$storyid]) ? 1 : 0;
-
             $submenu = empty($_POST['submenu'][$storyid]) ? 0 : 1;
 
-            $sql = "UPDATE $mytablename SET blockid='$blockid',visible='$visible',homepage='$hp_flag',nocomments='$nocomments',submenu='$submenu',last_modified=last_modified WHERE storyid='$storyid'";
+            $sql = "UPDATE $mytablename SET blockid='$blockid',visible='$visible',homepage='$hp_flag',submenu='$submenu',last_modified=last_modified WHERE storyid='$storyid'";
 
             $xoopsDB->query($sql) or die(_TC_ERRORINSERT);
 
@@ -598,8 +588,6 @@ switch ($op) {
                 'nosmiley' => 0,
 
                 'nobreaks' => 0,
-
-                'nocomments' => 0,
 
                 'submenu' => 0,
 
@@ -655,13 +643,13 @@ switch ($op) {
 
         } else if ($op == 'edit') {
 
-            $result = $xoopsDB->query("SELECT storyid,title,text,visible,nohtml,nosmiley,nobreaks,nocomments,submenu,UNIX_TIMESTAMP(last_modified),UNIX_TIMESTAMP(created),html_header FROM $mytablename WHERE storyid='$id'");
+            $result = $xoopsDB->query("SELECT storyid,title,text,visible,nohtml,nosmiley,            nobreaks,submenu,UNIX_TIMESTAMP(last_modified),UNIX_TIMESTAMP(created),html_header FROM $mytablename WHERE storyid='$id'");
 
-            list($storyid, $title, $message, $visible, $nohtml, $nosmiley, $nobreaks, $nocomments, $submenu, $last_modified, $created, $html_header) = $xoopsDB->fetchRow($result);
+                        list($storyid, $title, $message, $visible, $nohtml, $nosmiley, $nobreaks, $submenu, $last_modified, $created, $html_header) = $xoopsDB->fetchRow($result);
 
         } else {
 
-            list($storyid, $title, $message, $visible, $nohtml, $nosmiley, $nobreaks, $nocomments, $submenu, $last_modified, $created, $html_header) = array(0, '', '', 1, 0, 0, 1, 0, 1, 0, 0, '');
+                        list($storyid, $title, $message, $visible, $nohtml, $nosmiley, $nobreaks, $submenu, $last_modified, $created, $html_header) = array(0, '', '', 1, 0, 0, 1, 1, 0, 0, '');
 
         }
 
@@ -880,14 +868,6 @@ switch ($op) {
 
         $option_tray->addElement($submenu_checkbox);
 
-        // comments
-
-        $comments_checkbox = new XoopsFormCheckBox('', 'comments', !$nocomments);
-
-        $comments_checkbox->addOption(1, _TC_ENABLECOM);
-
-        $option_tray->addElement($comments_checkbox);
-
         $form->addElement($option_tray);
 
         // end of options
@@ -1044,8 +1024,6 @@ mode : "textareas"
 
         $nobreaks = empty($_POST['nobreaks']) ? 0 : 1;
 
-        $nocomments = empty($_POST['comments']) ? 1 : 0;
-
         $submenu = empty($_POST['submenu']) ? 0 : 1;
 
         // hp flag is set if there are no records which has flag of homepage
@@ -1056,7 +1034,7 @@ mode : "textareas"
 
         $hp_flag = $count_home > 0 ? 0 : 1;
 
-        $sql_set = "SET title='$title4save',text='$text4save',visible='$visible',nohtml='$nohtml',nosmiley='$nosmiley',nobreaks='$nobreaks',nocomments='$nocomments',link='0',submenu='$submenu',html_header='$html_header4save'";
+        $sql_set = "SET title='$title4save',text='$text4save',visible='$visible',nohtml='$nohtml',nosmiley='$nosmiley',nobreaks='$nobreaks',link='0',submenu='$submenu',html_header='$html_header4save'";
 
         if ($op == 'add' || !empty($_POST['saveas'])) {
 
@@ -1166,9 +1144,9 @@ mode : "textareas"
 
         if ($op == 'elink') {
 
-            $result = $xoopsDB->query("SELECT storyid,title,visible,nocomments,address,submenu,link,UNIX_TIMESTAMP(last_modified) FROM $mytablename WHERE storyid='$id'");
+            $result = $xoopsDB->query("SELECT storyid,title,visible,address,submenu,link,UNIX_TIMESTAMP(last_modified) FROM $mytablename WHERE storyid='$id'");
 
-            list($storyid, $title, $visible, $nocomments, $address, $submenu, $link, $last_modified) = $xoopsDB->fetchRow($result);
+            list($storyid, $title, $visible, $address, $submenu, $link, $last_modified) = $xoopsDB->fetchRow($result);
 
             $form_name = _TC_EDITLINK;
 
@@ -1176,7 +1154,7 @@ mode : "textareas"
 
         } else {
 
-            list($storyid, $title, $visible, $nocomments, $address, $submenu, $link, $last_modified) = array(0, '', 1, 0, '', 1, 1, 0);
+            list($storyid, $title, $visible, $address, $submenu, $link, $last_modified) = array(0, '', 1, '', 1, 1, 0);
 
             $form_name = _TC_ADDLINK;
 
@@ -1245,14 +1223,6 @@ mode : "textareas"
         $submenu_checkbox->addOption(1, _TC_SUBMENU);
 
         $option_tray->addElement($submenu_checkbox);
-
-        // comments
-
-        $comments_checkbox = new XoopsFormCheckBox('', 'comments', !$nocomments);
-
-        $comments_checkbox->addOption(1, _TC_ENABLECOM);
-
-        $option_tray->addElement($comments_checkbox);
 
         $form->addElement($option_tray);
 
@@ -1330,8 +1300,6 @@ mode : "textareas"
 
         $visible = empty($_POST['visible']) ? 0 : 1;
 
-        $nocomments = empty($_POST['comments']) ? 1 : 0;
-
         $submenu = empty($_POST['submenu']) ? 0 : 1;
 
         $link = empty($_POST['wraproot']) ? 1 : intval($_POST['wraproot']);
@@ -1372,7 +1340,7 @@ mode : "textareas"
 
         }
 
-        $sql_set = "SET title='$title4save',address='$address4save',visible='$visible',nocomments='$nocomments',submenu='$submenu',link='$link',text='$text',nohtml='0',nosmiley='0',nobreaks='0'";
+        $sql_set = "SET title='$title4save',address='$address4save',visible='$visible',submenu='$submenu',link='$link',text='$text',nohtml='0',nosmiley='0',nobreaks='0'";
 
         if ($op == 'addlink') {
 
@@ -1598,8 +1566,6 @@ mode : "textareas"
 
         $result = $xoopsDB->query("DELETE FROM $mytablename WHERE storyid='$id'");
 
-        xoops_comment_delete($xoopsModule->getVar('mid'), $id);
-
         redirect_header("index.php?op=show", 1, _TC_DBUPDATED);
 
         exit;
@@ -1699,12 +1665,6 @@ mode : "textareas"
             // delete the record
 
             $del_rs = $xoopsDB->query("DELETE FROM $mytablename WHERE storyid='" . intval($src_id) . "'");
-
-            // moving comments
-
-            $sql = "UPDATE " . $xoopsDB->prefix('xoopscomments') . " SET com_modid='$dest_mid',com_itemid='$dest_id' WHERE com_modid='$src_mid' AND com_itemid='$src_id'";
-
-            $xoopsDB->query($sql);
 
         }
 

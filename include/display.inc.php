@@ -155,10 +155,8 @@ $xoopsTpl->assign( 'mod_url' , $mod_url ) ;
 $xoopsTpl->assign( 'vmod_url' , $vmod_url ) ;
 $xoopsTpl->assign( 'title' , $myts->makeTboxData4Show( $title ) ) ;
 $xoopsTpl->assign( 'xoops_pagetitle' , $myts->makeTboxData4Show( $title ) ) ;
-$xoopsTpl->assign( 'xoops_default_comment_title' , sprintf( _TC_FMT_DEFAULT_COMMENT_TITLE , $myts->makeTboxData4Edit( $title ) ) ) ;
 $xoopsTpl->assign( 'xoops_module_header' , $xoopsModuleConfig['tc_common_htmlheader'] . "\n" . $html_header . "\n" . $xoopsTpl->get_template_vars( "xoops_module_header" ) ) ;
 $xoopsTpl->assign( 'content' , $content ) ;
-$xoopsTpl->assign( 'nocomments' , $nocomments ) ;
 $xoopsTpl->assign( 'mail_link', $mail_link ) ;
 $xoopsTpl->assign( 'lang_printerpage' , _TC_PRINTERFRIENDLY ) ;
 $xoopsTpl->assign( 'lang_sendstory' , _TC_SENDSTORY ) ;
@@ -175,39 +173,8 @@ $xoopsTpl->assign( 'next_link' , $next_link ) ;
 $xoopsTpl->assign( 'top_link' , $top_link ) ;
 $xoopsTpl->assign( 'id' , $id ) ;
 $xoopsTpl->assign( 'homepage_id' , isset( $homepage_id ) ? $homepage_id : 0 ) ;
-$xoopsTpl->assign( 'last_modified' , $last_modified ) ;
-
-include( XOOPS_ROOT_PATH.'/include/comment_view.php' ) ;
-
-
-if( ! empty( $xoopsModuleConfig['tc_force_mod_rewrite'] ) || $link == TC_WRAPTYPE_USEREWRITE ) {
-	$mod_url_rewrite = $mod_url . '/' . substr( $tc_rewrite_dir , 0, -1 ) ;
-} else {
-	$mod_url_rewrite = $mod_url ;
-}
-
-$php_self_ab = $mod_url_rewrite . ($link == TC_WRAPTYPE_CONTENTBASE ? '/content' : '' ) . '/index.php' ;
-
-// relative link to absolut link of comment_links
-$commentsnav = $xoopsTpl->get_template_vars( "commentsnav" ) ;
-$commentsnav = str_replace( 'action="index.php"' , 'action="'.$php_self_ab.'"' , $commentsnav ) ;
-$commentsnav = str_replace( "href='comment_new.php" , "href='$mod_url_rewrite/comment_new.php" , $commentsnav ) ;
-$xoopsTpl->assign( 'commentsnav' , $commentsnav ) ;
-
-$editcomment_link = $xoopsTpl->get_template_vars( "editcomment_link" ) ;
-if( substr( $editcomment_link , 0 , 8 ) == 'comment_' ) {
-	$xoopsTpl->assign( 'editcomment_link' , "$mod_url_rewrite/$editcomment_link" ) ;
-}
-
-$deletecomment_link = $xoopsTpl->get_template_vars( "deletecomment_link" ) ;
-if( substr( $deletecomment_link , 0 , 8 ) == 'comment_' ) {
-	$xoopsTpl->assign( 'deletecomment_link' , "$mod_url_rewrite/$deletecomment_link" ) ;
-}
-
-$replycomment_link = $xoopsTpl->get_template_vars( "replycomment_link" ) ;
-if( substr( $replycomment_link , 0 , 8 ) == 'comment_' ) {
-	$xoopsTpl->assign( 'replycomment_link' , "$mod_url_rewrite/$replycomment_link" ) ;
-}
+$xoopsTpl->assign( 'last_modified' , $last_modified ) ;
+
 
 include( XOOPS_ROOT_PATH.'/footer.php' ) ;
 
