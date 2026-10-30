@@ -78,26 +78,29 @@ function tinyd_search_base( $mydirname , $mydirnumber , $keywords , $andor , $li
 
 	$whr = "" ;
 	if( is_array( $keywords ) && count( $keywords ) > 0 ) {
-		$whr = "AND (" ;
-		switch( strtolower( $andor ) ) {
-			case "and" :
-				foreach( $keywords as $keyword ) {
-					$whr .= "CONCAT(title,' ',text) LIKE '%$keyword%' AND " ;
-				}
-				$whr = substr( $whr , 0 , -5 ) ;
-				break ;
-			case "or" :
-				foreach( $keywords as $keyword ) {
-					$whr .= "CONCAT(title,' ',text) LIKE '%$keyword%' OR " ;
-				}
-				$whr = substr( $whr , 0 , -4 ) ;
-				break ;
-			default :
-				$whr .= "CONCAT(title,' ',text) LIKE '%{$keywords[0]}%'" ;
-				break ;
-		}
-		$whr .= ")" ;
-	}
+		$keyword_conditions = array() ;
+		foreach( $keywords as $keyword ) {
+			if( ! is_scalar( $keyword ) ) {
+				continue ;
+			}
+			$keyword_conditions[] = "CONCAT(title,' ',text) LIKE '%" . $db->escape( (string) $keyword ) . "%'" ;
+		}
+		if( count( $keyword_conditions ) > 0 ) {
+			$whr = "AND (" ;
+			switch( strtolower( $andor ) ) {
+				case "and" :
+					$whr .= implode( " AND " , $keyword_conditions ) ;
+					break ;
+				case "or" :
+					$whr .= implode( " OR " , $keyword_conditions ) ;
+					break ;
+				default :
+					$whr .= $keyword_conditions[0] ;
+					break ;
+			}
+			$whr .= ")" ;
+		}
+	}
 
 	$sql = "$sql $whr ORDER BY storyid ASC" ;
 	$result = $db->query( $sql , $limit , $offset ) ;
